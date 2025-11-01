@@ -1,8 +1,8 @@
 <div align="center">
 
-<h1>signals</h1>
+<h1>unplugin-signals</h1>
 
-**A signals library.**
+**Transformer plugin for signals.**
 
 [Documentation](https://MichaelOstermann.github.io/signals)
 

@@ -1,17 +1,17 @@
 {
-    "name": "@monstermann/NAME",
+    "name": "@monstermann/signals",
     "type": "module",
     "version": "0.0.0",
-    "description": "DESC",
+    "description": "A signals library.",
     "author": "Michael Ostermann <michaelostermann@me.com>",
     "license": "MIT",
-    "homepage": "https://MichaelOstermann.github.io/NAME",
+    "homepage": "https://MichaelOstermann.github.io/signals",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/MichaelOstermann/NAME.git"
+        "url": "git+https://github.com/MichaelOstermann/signals.git"
     },
     "bugs": {
-        "url": "https://github.com/MichaelOstermann/NAME/issues"
+        "url": "https://github.com/MichaelOstermann/signals/issues"
     },
     "keywords": [],
     "sideEffects": false,
@@ -19,7 +19,8 @@
         ".": {
             "types": "./dist/index.d.ts",
             "import": "./dist/index.js"
-        }
+        },
+        "./*": "./dist/*"
     },
     "main": "./dist/index.js",
     "module": "./dist/index.js",
@@ -31,5 +32,13 @@
         "bundle": "tsdown",
         "release": "bun publish --access public"
     },
-    "dependencies": {}
+    "dependencies": {
+        "@monstermann/dll": "^0.0.0",
+        "@monstermann/dsp": "^0.2.1",
+        "@monstermann/meta": "^0.1.0"
+    },
+    "devDependencies": {
+        "@monstermann/unplugin-dll": "^0.0.0",
+        "@monstermann/unplugin-dsp": "^0.2.1"
+    }
 }
