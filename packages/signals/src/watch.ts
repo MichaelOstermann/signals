@@ -30,7 +30,7 @@ export const disposeWatcher = () => watcherCtx()?.()
 export function watch<T>(
     dependencies: ReadonlySignal<T> | Memo<T> | (() => T),
     computation: (next: NoInfer<T>, prev: NoInfer<T>) => MaybeDispose,
-    options?: WatcherOptions<T>,
+    options?: WatcherOptions<NoInfer<T>>,
     _meta?: UnpluginMeta,
 ): Watcher {
     const watcher = disposer() as Watcher

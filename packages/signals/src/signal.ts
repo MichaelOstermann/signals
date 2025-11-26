@@ -51,7 +51,7 @@ export function signal<T>(
 
 export function signal<T>(
     value: T,
-    options?: SignalOptions<T>,
+    options?: SignalOptions<NoInfer<T>>,
     _meta?: UnpluginMeta,
 ): Signal<T> {
     const s = new RawSignal(value, options)

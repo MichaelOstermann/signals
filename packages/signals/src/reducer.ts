@@ -38,7 +38,7 @@ export const getReducers = toList(reducers)
 export function reducer<T, U extends ReducerAction>(
     initialState: T,
     reduce: (state: T, action: U) => T,
-    options?: ReducerOptions<T>,
+    options?: ReducerOptions<NoInfer<T>>,
     _meta?: UnpluginMeta,
 ): Reducer<T, U> {
     const s = new RawSignal(initialState, options)

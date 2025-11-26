@@ -25,7 +25,7 @@ export const getMemos = toList(memos)
 
 export function memo<T>(
     computation: () => T,
-    options?: MemoOptions<T>,
+    options?: MemoOptions<NoInfer<T>>,
     _meta?: UnpluginMeta,
 ): Memo<T> {
     let init = false
