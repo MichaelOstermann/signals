@@ -51,7 +51,7 @@ export function emitter<T = void>(
     ) as Emitter<T>
     emitter.kind = EMITTER
     emitter.meta = createMeta("Emitter", options, _meta)
-    emitter.empty = signal(false)
+    emitter.empty = signal(true)
     emitter.handler = options?.handler ?? defaultHandler
 
     const onWatch = options?.onWatch
