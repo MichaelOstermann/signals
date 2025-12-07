@@ -23,19 +23,19 @@
       "version": "0.1.1",
       "dependencies": {
         "@monstermann/dll": "^0.0.2",
-        "@monstermann/dsp": "^0.2.1",
-        "@monstermann/meta": "^0.1.0",
+        "@monstermann/dsp": "^0.2.3",
+        "@monstermann/meta": "^0.1.1",
       },
       "devDependencies": {
         "@monstermann/unplugin-dll": "^0.0.2",
-        "@monstermann/unplugin-dsp": "^0.2.1",
+        "@monstermann/unplugin-dsp": "^0.2.3",
       },
     },
     "packages/unplugin-signals": {
       "name": "@monstermann/unplugin-signals",
       "version": "0.1.1",
       "dependencies": {
-        "@monstermann/transform-meta": "^0.1.0",
+        "@monstermann/transform-meta": "^0.1.1",
         "unplugin": "^2.3.4",
         "unplugin-utils": "^0.3.0",
       },
@@ -280,15 +280,15 @@
 
     "@monstermann/dll": ["@monstermann/dll@0.0.2", "", {}, "sha512-9CsW/KTouyNJnRzyORLc54bogLqRMfkdVLzLDWPlN+2PfBgxB/TT5RniZKb3IduelBMZk/HgDnViiLXQPFSHfA=="],
 
-    "@monstermann/dsp": ["@monstermann/dsp@0.2.1", "", {}, "sha512-oXB5SClYzuqGZdS3d1ExSAUbIkcoObQY7oPXx2QVJka84BId1YZ9ED/Wtdj1SXHmZMhT8cseDuncm3JaS0pUgg=="],
+    "@monstermann/dsp": ["@monstermann/dsp@0.2.3", "", {}, "sha512-0Bs3d+pi9W3Z1hK0mBhsxsD7yPCN/brpXvjgkPR1pvMmb35sComUzt9JoEwO6ULhSVFYkULJuETTk47R7XEO8Q=="],
 
     "@monstermann/eslint-config": ["@monstermann/eslint-config@0.5.0", "", { "dependencies": { "@eslint-community/eslint-plugin-eslint-comments": "^4.5.0", "@eslint-react/eslint-plugin": "^1.49.0", "@stylistic/eslint-plugin": "^4.2.0", "@typescript-eslint/eslint-plugin": "^8.32.1", "@typescript-eslint/parser": "^8.32.1", "eslint": "^9.26.0", "eslint-plugin-antfu": "^3.1.1", "eslint-plugin-format": "^1.0.1", "eslint-plugin-import-x": "^4.11.1", "eslint-plugin-jsdoc": "^50.6.17", "eslint-plugin-jsonc": "^2.20.0", "eslint-plugin-n": "^17.18.0", "eslint-plugin-perfectionist": "^4.13.0", "eslint-plugin-react-compiler": "^19.0.0-beta-e552027-20250112", "eslint-plugin-react-hooks": "^5.2.0", "eslint-plugin-react-refresh": "^0.4.20", "eslint-plugin-regexp": "^2.7.0", "eslint-plugin-tailwindcss": "^3.18.0", "eslint-plugin-unicorn": "^59.0.1", "eslint-plugin-unused-imports": "^4.1.4", "globals": "^16.1.0", "jsonc-eslint-parser": "^2.4.0", "prettier": "^3.5.3" } }, "sha512-XGXuwjMPs6xjLRO8XomZwwOgUv9kYjsqEZWJRtp3IgEqVENOqtG0fb5d8scIBX+jsnTUy8Fw+7HxejlieAUV6Q=="],
 
-    "@monstermann/meta": ["@monstermann/meta@0.1.0", "", {}, "sha512-RUrZdxKDC+//hfJIDeS1wztPJADuMzIy6nG0NjuvGyGZoI9kQOdCbWYIetpiXTRLNgfwmTY25jcEWqim3Oowhg=="],
+    "@monstermann/meta": ["@monstermann/meta@0.1.1", "", {}, "sha512-bUGRXIfFvT12LWMznQAcPYWBAWUEw+pjJcj6YpBVTA+oXJ2x+Lx1El4IbWII08KJrSWQx6Y9xFacmSoYth0O7A=="],
 
     "@monstermann/signals": ["@monstermann/signals@workspace:packages/signals"],
 
-    "@monstermann/transform-meta": ["@monstermann/transform-meta@0.1.0", "", { "dependencies": { "@jridgewell/remapping": "^2.3.4", "@jridgewell/sourcemap-codec": "^1.5.4", "magic-string": "^0.30.17", "oxc-parser": "^0.76.0", "oxc-walker": "^0.3.0" } }, "sha512-g7kngJs4seJNV7lNbApc2Gty+cuZacx72ZcFcbsjk1aVRCdHEjDE5CeJW75uGG/RvBjrRToU22y2M5/t9IEM3w=="],
+    "@monstermann/transform-meta": ["@monstermann/transform-meta@0.1.1", "", { "dependencies": { "@jridgewell/remapping": "^2.3.4", "@jridgewell/sourcemap-codec": "^1.5.4", "magic-string": "^0.30.17", "oxc-parser": "^0.101.0", "oxc-walker": "^0.6.0" } }, "sha512-wS3hyUnZO+gctlU1rhIB3Loz2+0QcYntw0rq7wqHMZSl0TXal9cgeZ7His+9KMSdaA4bWlbQJkqACLgZfvxjmw=="],
 
     "@monstermann/tree-shake-import-namespaces": ["@monstermann/tree-shake-import-namespaces@0.2.2", "", { "dependencies": { "@jridgewell/remapping": "^2.3.4", "@jridgewell/sourcemap-codec": "^1.5.4", "astring": "^1.9.0", "magic-string": "^0.30.17", "oxc-parser": "^0.101.0", "oxc-walker": "^0.6.0", "picocolors": "^1.1.1" } }, "sha512-NBJp/l8fZYtTwwWfoIN4PCW/eQTF/jYEczUmdZt6z9yjPKoiQfZyLtgQZ/mFObU68bzKR9q+8XYphggPpCkojg=="],
 
@@ -296,7 +296,7 @@
 
     "@monstermann/unplugin-dll": ["@monstermann/unplugin-dll@0.0.2", "", { "dependencies": { "@monstermann/tree-shake-import-namespaces": "^0.2.2", "unplugin": "^2.3.4", "unplugin-utils": "^0.3.0" } }, "sha512-lOn6EyxTbTpv4lvx3YJwaVd/6PaZcM/9pFUTR1vrV15IwM7rSVMXPTCVZC1+Wqn/gO+H/9jOj1i9G23Lg2l3RQ=="],
 
-    "@monstermann/unplugin-dsp": ["@monstermann/unplugin-dsp@0.2.1", "", { "dependencies": { "@monstermann/tree-shake-import-namespaces": "^0.2.0", "unplugin": "^2.3.4", "unplugin-utils": "^0.2.4" } }, "sha512-6ggWGFmKpGUfs8yDRP+XY7VOv4BVl/ssgODfwbINfvHhjiTXoFwPxNnBRRPd/51kyS8ZXuq5tTubm30PYEycYQ=="],
+    "@monstermann/unplugin-dsp": ["@monstermann/unplugin-dsp@0.2.3", "", { "dependencies": { "@monstermann/tree-shake-import-namespaces": "^0.2.2", "unplugin": "^2.3.4", "unplugin-utils": "^0.3.0" } }, "sha512-wNo8RV+jbLin5BauUwzFqrs8bG64gcFmDfFYV3pC+cMqguXsWdafjs0GgQp2YGBFewoCxVA4iDS228khKRGREA=="],
 
     "@monstermann/unplugin-signals": ["@monstermann/unplugin-signals@workspace:packages/unplugin-signals"],
 
@@ -1390,17 +1390,15 @@
 
     "@monstermann/barrels-namespace/unplugin-utils": ["unplugin-utils@0.2.5", "", { "dependencies": { "pathe": "^2.0.3", "picomatch": "^4.0.3" } }, "sha512-gwXJnPRewT4rT7sBi/IvxKTjsms7jX7QIDLOClApuZwR49SXbrB1z2NLUZ+vDHyqCj/n58OzRRqaW+B8OZi8vg=="],
 
-    "@monstermann/transform-meta/magic-string": ["magic-string@0.30.17", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.0" } }, "sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA=="],
+    "@monstermann/transform-meta/oxc-parser": ["oxc-parser@0.101.0", "", { "dependencies": { "@oxc-project/types": "^0.101.0" }, "optionalDependencies": { "@oxc-parser/binding-android-arm64": "0.101.0", "@oxc-parser/binding-darwin-arm64": "0.101.0", "@oxc-parser/binding-darwin-x64": "0.101.0", "@oxc-parser/binding-freebsd-x64": "0.101.0", "@oxc-parser/binding-linux-arm-gnueabihf": "0.101.0", "@oxc-parser/binding-linux-arm64-gnu": "0.101.0", "@oxc-parser/binding-linux-arm64-musl": "0.101.0", "@oxc-parser/binding-linux-riscv64-gnu": "0.101.0", "@oxc-parser/binding-linux-s390x-gnu": "0.101.0", "@oxc-parser/binding-linux-x64-gnu": "0.101.0", "@oxc-parser/binding-linux-x64-musl": "0.101.0", "@oxc-parser/binding-openharmony-arm64": "0.101.0", "@oxc-parser/binding-wasm32-wasi": "0.101.0", "@oxc-parser/binding-win32-arm64-msvc": "0.101.0", "@oxc-parser/binding-win32-x64-msvc": "0.101.0" } }, "sha512-Njg0KoSisH57AWzKTImV0JpjUBu0riCwbMTnnSH8H/deHpJaVpcbmwsiKkSd7ViX6lxaXiOiBVZH2quWPUFtUg=="],
+
+    "@monstermann/transform-meta/oxc-walker": ["oxc-walker@0.6.0", "", { "dependencies": { "magic-regexp": "^0.10.0" }, "peerDependencies": { "oxc-parser": ">=0.98.0" } }, "sha512-BA3hlxq5+Sgzp7TCQF52XDXCK5mwoIZuIuxv/+JuuTzOs2RXkLqWZgZ69d8pJDDjnL7wiREZTWHBzFp/UWH88Q=="],
 
     "@monstermann/tree-shake-import-namespaces/magic-string": ["magic-string@0.30.17", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.0" } }, "sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA=="],
 
     "@monstermann/tree-shake-import-namespaces/oxc-parser": ["oxc-parser@0.101.0", "", { "dependencies": { "@oxc-project/types": "^0.101.0" }, "optionalDependencies": { "@oxc-parser/binding-android-arm64": "0.101.0", "@oxc-parser/binding-darwin-arm64": "0.101.0", "@oxc-parser/binding-darwin-x64": "0.101.0", "@oxc-parser/binding-freebsd-x64": "0.101.0", "@oxc-parser/binding-linux-arm-gnueabihf": "0.101.0", "@oxc-parser/binding-linux-arm64-gnu": "0.101.0", "@oxc-parser/binding-linux-arm64-musl": "0.101.0", "@oxc-parser/binding-linux-riscv64-gnu": "0.101.0", "@oxc-parser/binding-linux-s390x-gnu": "0.101.0", "@oxc-parser/binding-linux-x64-gnu": "0.101.0", "@oxc-parser/binding-linux-x64-musl": "0.101.0", "@oxc-parser/binding-openharmony-arm64": "0.101.0", "@oxc-parser/binding-wasm32-wasi": "0.101.0", "@oxc-parser/binding-win32-arm64-msvc": "0.101.0", "@oxc-parser/binding-win32-x64-msvc": "0.101.0" } }, "sha512-Njg0KoSisH57AWzKTImV0JpjUBu0riCwbMTnnSH8H/deHpJaVpcbmwsiKkSd7ViX6lxaXiOiBVZH2quWPUFtUg=="],
 
     "@monstermann/tree-shake-import-namespaces/oxc-walker": ["oxc-walker@0.6.0", "", { "dependencies": { "magic-regexp": "^0.10.0" }, "peerDependencies": { "oxc-parser": ">=0.98.0" } }, "sha512-BA3hlxq5+Sgzp7TCQF52XDXCK5mwoIZuIuxv/+JuuTzOs2RXkLqWZgZ69d8pJDDjnL7wiREZTWHBzFp/UWH88Q=="],
-
-    "@monstermann/unplugin-dsp/@monstermann/tree-shake-import-namespaces": ["@monstermann/tree-shake-import-namespaces@0.2.0", "", { "dependencies": { "@jridgewell/remapping": "^2.3.4", "@jridgewell/sourcemap-codec": "^1.5.4", "astring": "^1.9.0", "magic-string": "^0.30.17", "oxc-parser": "^0.76.0", "oxc-walker": "^0.3.0", "picocolors": "^1.1.1" } }, "sha512-CFc6Ym0Uf95V5QpvacC2cAzlv6AoO/YQj9BSoiReIqeMUqouBtc7HZpwecMbQcdPyXicwe2b5M+2zwMPWdWYMw=="],
-
-    "@monstermann/unplugin-dsp/unplugin-utils": ["unplugin-utils@0.2.5", "", { "dependencies": { "pathe": "^2.0.3", "picomatch": "^4.0.3" } }, "sha512-gwXJnPRewT4rT7sBi/IvxKTjsms7jX7QIDLOClApuZwR49SXbrB1z2NLUZ+vDHyqCj/n58OzRRqaW+B8OZi8vg=="],
 
     "@oxc-resolver/binding-wasm32-wasi/@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@1.0.3", "", { "dependencies": { "@emnapi/core": "^1.4.5", "@emnapi/runtime": "^1.4.5", "@tybys/wasm-util": "^0.10.0" } }, "sha512-rZxtMsLwjdXkMUGC3WwsPwLNVqVqnTJT6MNIB6e+5fhMcSCPP0AOsNWuMQ5mdCq6HNjs/ZeWAEchpqeprqBD2Q=="],
 
@@ -1538,7 +1536,35 @@
 
     "@babel/traverse/@babel/generator/@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.25", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ=="],
 
-    "@monstermann/transform-meta/magic-string/@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.0", "", {}, "sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ=="],
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-android-arm64": ["@oxc-parser/binding-android-arm64@0.101.0", "", { "os": "android", "cpu": "arm64" }, "sha512-dh1thtigwmLtJTF3BbgC+5lucGYdBAsnLE02scOSOZpiaEcsl5acMwwPBlhjHrHGWS/xBRz53Z178ilO0q+sWg=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-darwin-arm64": ["@oxc-parser/binding-darwin-arm64@0.101.0", "", { "os": "darwin", "cpu": "arm64" }, "sha512-DCy7zJDxHo7iT9Y8eDSvBt4HN5pOSb+8y+eJv5Kq8plMQF5oatcu5ZvHvP6Hij3jRNBgpwTC4vWLdND7l/zsCA=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-darwin-x64": ["@oxc-parser/binding-darwin-x64@0.101.0", "", { "os": "darwin", "cpu": "x64" }, "sha512-M5oPJFQ/B7wXOjL8r/qezIngLdypH8aCsJx2cb94Eo/gGix0AgEr9ojVF1P/3kJu2Oi/prZf5Cgf0XfbRfm9Gw=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-freebsd-x64": ["@oxc-parser/binding-freebsd-x64@0.101.0", "", { "os": "freebsd", "cpu": "x64" }, "sha512-IG9smLrG7jh/VjKR7haW07+cC0cxq9i74iTNmS73cKo43VrfFxce6f+qXPaZj8EDizoFDqn5imWOb8tc2dBxTA=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-linux-arm-gnueabihf": ["@oxc-parser/binding-linux-arm-gnueabihf@0.101.0", "", { "os": "linux", "cpu": "arm" }, "sha512-AW8JrXyf2e9y4KlF5cFFYyD1+eKp1PSUKeg5FUevAn5QBFjr/IO2iZ+bLkK66M4z/oRma62pFjo3ubVEggenVw=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-linux-arm64-gnu": ["@oxc-parser/binding-linux-arm64-gnu@0.101.0", "", { "os": "linux", "cpu": "arm64" }, "sha512-c7myby84UFxRqGPM0wEhdIqz0Ta4GZHoj0IVUSYNNar4j0Cmll1H/f/43cJGj2EwL4sDVDPRrF526JwJIHOZYg=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-linux-arm64-musl": ["@oxc-parser/binding-linux-arm64-musl@0.101.0", "", { "os": "linux", "cpu": "arm64" }, "sha512-LZ7o9sFafyIVOwpHQkEPyF3EfZYzGWXNkzznSSASlHxoyo/Uk3EIqL1B2UG0bWxHsz7nNIhv9ItyfGm+/7QHXQ=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-linux-riscv64-gnu": ["@oxc-parser/binding-linux-riscv64-gnu@0.101.0", "", { "os": "linux", "cpu": "none" }, "sha512-3LyKucFn9Yu9IggO4FPkbaghcMvr+fWO3krdcQBm6MDZiRsx8c+xcqmGji8l4evaAA6oHFg3eYNKsFgjQoHnkA=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-linux-s390x-gnu": ["@oxc-parser/binding-linux-s390x-gnu@0.101.0", "", { "os": "linux", "cpu": "s390x" }, "sha512-TCJhU5WTdvua4IMXz67CUESbxYZT9Adyt9KhKC+7H6hcjCJd111kTMG5AIqegeaZjxs7tDCyDCtymvKtD6BvCg=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-linux-x64-gnu": ["@oxc-parser/binding-linux-x64-gnu@0.101.0", "", { "os": "linux", "cpu": "x64" }, "sha512-owQQTlvFDn496Rcx+aHvxcaVHeX/iQX2zNYB9mh8XywIyO1QLhOVDxNHrFYnbMoXGNnwXnN4CPtpYXPuMS338g=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-linux-x64-musl": ["@oxc-parser/binding-linux-x64-musl@0.101.0", "", { "os": "linux", "cpu": "x64" }, "sha512-NcGgxNoVM/cjTqbMsq8olHWV0obfCnTYic/d12c49e0p8CV412xOrB1C9dXO8POd1evrrIIXCeMaroliRgl9/w=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-wasm32-wasi": ["@oxc-parser/binding-wasm32-wasi@0.101.0", "", { "dependencies": { "@napi-rs/wasm-runtime": "^1.0.7" }, "cpu": "none" }, "sha512-6jZ5fDUOlHICoTpcz7oHKyy3mF7RfM/hmSMnY1/b99Z+7hFql4yNlyHJ0RS1lS11H3V2qzxXXWXocGlOz3qmWw=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-win32-arm64-msvc": ["@oxc-parser/binding-win32-arm64-msvc@0.101.0", "", { "os": "win32", "cpu": "arm64" }, "sha512-BRcLSzo0NZUSB5vJTW9NEnnIHOYLfiOVgXl+a0Hbv7sr/3xl3E4arkx/btNL441uDSEPFtrM1rcclpICDuYhlA=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-win32-x64-msvc": ["@oxc-parser/binding-win32-x64-msvc@0.101.0", "", { "os": "win32", "cpu": "x64" }, "sha512-HF6deX1VgbzVXl+v/7j02uQKXJtUtMhIQQMbmTg1wZVDbSOPgIVdwrOqUhSdaCt7gnbiD4KR3TAI1tJgqY8LxQ=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-project/types": ["@oxc-project/types@0.101.0", "", {}, "sha512-nuFhqlUzJX+gVIPPfuE6xurd4lST3mdcWOhyK/rZO0B9XWMKm79SuszIQEnSMmmDhq1DC8WWVYGVd+6F93o1gQ=="],
 
     "@monstermann/tree-shake-import-namespaces/magic-string/@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.0", "", {}, "sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ=="],
 
@@ -1571,8 +1597,6 @@
     "@monstermann/tree-shake-import-namespaces/oxc-parser/@oxc-parser/binding-win32-x64-msvc": ["@oxc-parser/binding-win32-x64-msvc@0.101.0", "", { "os": "win32", "cpu": "x64" }, "sha512-HF6deX1VgbzVXl+v/7j02uQKXJtUtMhIQQMbmTg1wZVDbSOPgIVdwrOqUhSdaCt7gnbiD4KR3TAI1tJgqY8LxQ=="],
 
     "@monstermann/tree-shake-import-namespaces/oxc-parser/@oxc-project/types": ["@oxc-project/types@0.101.0", "", {}, "sha512-nuFhqlUzJX+gVIPPfuE6xurd4lST3mdcWOhyK/rZO0B9XWMKm79SuszIQEnSMmmDhq1DC8WWVYGVd+6F93o1gQ=="],
-
-    "@monstermann/unplugin-dsp/@monstermann/tree-shake-import-namespaces/magic-string": ["magic-string@0.30.17", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.0" } }, "sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA=="],
 
     "@rolldown/binding-wasm32-wasi/@napi-rs/wasm-runtime/@emnapi/core": ["@emnapi/core@1.7.1", "", { "dependencies": { "@emnapi/wasi-threads": "1.1.0", "tslib": "^2.4.0" } }, "sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg=="],
 
@@ -1640,9 +1664,9 @@
 
     "@babel/traverse/@babel/generator/@jridgewell/trace-mapping/@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.0", "", {}, "sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ=="],
 
-    "@monstermann/tree-shake-import-namespaces/oxc-parser/@oxc-parser/binding-wasm32-wasi/@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@1.1.0", "", { "dependencies": { "@emnapi/core": "^1.7.1", "@emnapi/runtime": "^1.7.1", "@tybys/wasm-util": "^0.10.1" } }, "sha512-Fq6DJW+Bb5jaWE69/qOE0D1TUN9+6uWhCeZpdnSBk14pjLcCWR7Q8n49PTSPHazM37JqrsdpEthXy2xn6jWWiA=="],
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-wasm32-wasi/@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@1.1.0", "", { "dependencies": { "@emnapi/core": "^1.7.1", "@emnapi/runtime": "^1.7.1", "@tybys/wasm-util": "^0.10.1" } }, "sha512-Fq6DJW+Bb5jaWE69/qOE0D1TUN9+6uWhCeZpdnSBk14pjLcCWR7Q8n49PTSPHazM37JqrsdpEthXy2xn6jWWiA=="],
 
-    "@monstermann/unplugin-dsp/@monstermann/tree-shake-import-namespaces/magic-string/@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.0", "", {}, "sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ=="],
+    "@monstermann/tree-shake-import-namespaces/oxc-parser/@oxc-parser/binding-wasm32-wasi/@napi-rs/wasm-runtime": ["@napi-rs/wasm-runtime@1.1.0", "", { "dependencies": { "@emnapi/core": "^1.7.1", "@emnapi/runtime": "^1.7.1", "@tybys/wasm-util": "^0.10.1" } }, "sha512-Fq6DJW+Bb5jaWE69/qOE0D1TUN9+6uWhCeZpdnSBk14pjLcCWR7Q8n49PTSPHazM37JqrsdpEthXy2xn6jWWiA=="],
 
     "@rolldown/binding-wasm32-wasi/@napi-rs/wasm-runtime/@emnapi/core/@emnapi/wasi-threads": ["@emnapi/wasi-threads@1.1.0", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-WI0DdZ8xFSbgMjR1sFsKABJ/C5OnRrjT06JXbZKexJGrDuPTzZdDYfFlsgcCXCyf+suG5QU2e/y1Wo2V/OapLQ=="],
 
@@ -1734,11 +1758,19 @@
 
     "vitest/vite/rollup/@types/estree": ["@types/estree@1.0.8", "", {}, "sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w=="],
 
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-wasm32-wasi/@napi-rs/wasm-runtime/@emnapi/core": ["@emnapi/core@1.7.1", "", { "dependencies": { "@emnapi/wasi-threads": "1.1.0", "tslib": "^2.4.0" } }, "sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-wasm32-wasi/@napi-rs/wasm-runtime/@emnapi/runtime": ["@emnapi/runtime@1.7.1", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-PVtJr5CmLwYAU9PZDMITZoR5iAOShYREoR45EyyLrbntV50mdePTgUn4AmOw90Ifcj+x2kRjdzr1HP3RrNiHGA=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-wasm32-wasi/@napi-rs/wasm-runtime/@tybys/wasm-util": ["@tybys/wasm-util@0.10.1", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg=="],
+
     "@monstermann/tree-shake-import-namespaces/oxc-parser/@oxc-parser/binding-wasm32-wasi/@napi-rs/wasm-runtime/@emnapi/core": ["@emnapi/core@1.7.1", "", { "dependencies": { "@emnapi/wasi-threads": "1.1.0", "tslib": "^2.4.0" } }, "sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg=="],
 
     "@monstermann/tree-shake-import-namespaces/oxc-parser/@oxc-parser/binding-wasm32-wasi/@napi-rs/wasm-runtime/@emnapi/runtime": ["@emnapi/runtime@1.7.1", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-PVtJr5CmLwYAU9PZDMITZoR5iAOShYREoR45EyyLrbntV50mdePTgUn4AmOw90Ifcj+x2kRjdzr1HP3RrNiHGA=="],
 
     "@monstermann/tree-shake-import-namespaces/oxc-parser/@oxc-parser/binding-wasm32-wasi/@napi-rs/wasm-runtime/@tybys/wasm-util": ["@tybys/wasm-util@0.10.1", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg=="],
+
+    "@monstermann/transform-meta/oxc-parser/@oxc-parser/binding-wasm32-wasi/@napi-rs/wasm-runtime/@emnapi/core/@emnapi/wasi-threads": ["@emnapi/wasi-threads@1.1.0", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-WI0DdZ8xFSbgMjR1sFsKABJ/C5OnRrjT06JXbZKexJGrDuPTzZdDYfFlsgcCXCyf+suG5QU2e/y1Wo2V/OapLQ=="],
 
     "@monstermann/tree-shake-import-namespaces/oxc-parser/@oxc-parser/binding-wasm32-wasi/@napi-rs/wasm-runtime/@emnapi/core/@emnapi/wasi-threads": ["@emnapi/wasi-threads@1.1.0", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-WI0DdZ8xFSbgMjR1sFsKABJ/C5OnRrjT06JXbZKexJGrDuPTzZdDYfFlsgcCXCyf+suG5QU2e/y1Wo2V/OapLQ=="],
   }
