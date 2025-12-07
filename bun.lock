@@ -22,7 +22,7 @@
       "name": "@monstermann/signals",
       "version": "0.1.1",
       "dependencies": {
-        "@monstermann/dll": "^0.0.0",
+        "@monstermann/dll": "^0.0.2",
         "@monstermann/dsp": "^0.2.1",
         "@monstermann/meta": "^0.1.0",
       },
@@ -272,7 +272,7 @@
 
     "@monstermann/dfdl": ["@monstermann/dfdl@0.1.0", "", {}, "sha512-9/Z9x3C2aT7843JmoGk3lnsUdP73xSmK8kduh+xth/NjEUcc3yCJYoAoNlpyQkv6WVtmsc41hy/W77pNsb8L8Q=="],
 
-    "@monstermann/dll": ["@monstermann/dll@0.0.0", "", {}, "sha512-sCpmQRG3N+Jg4i0VkCxFhNLxqMZvacMv2n/QYCacKpip0xy1wEaJLlIXzntNuBrvNf0GnWNIahJqzNTRbO7n1g=="],
+    "@monstermann/dll": ["@monstermann/dll@0.0.2", "", {}, "sha512-9CsW/KTouyNJnRzyORLc54bogLqRMfkdVLzLDWPlN+2PfBgxB/TT5RniZKb3IduelBMZk/HgDnViiLXQPFSHfA=="],
 
     "@monstermann/dsp": ["@monstermann/dsp@0.2.1", "", {}, "sha512-oXB5SClYzuqGZdS3d1ExSAUbIkcoObQY7oPXx2QVJka84BId1YZ9ED/Wtdj1SXHmZMhT8cseDuncm3JaS0pUgg=="],
 
