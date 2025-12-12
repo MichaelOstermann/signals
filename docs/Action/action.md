@@ -2,7 +2,7 @@
 
 ```ts
 function action(
-    handler: (payload: T) => U,
+    handler: (...args: T) => U,
     options?: ActionOptions,
 ): Action<T, U>;
 ```
@@ -16,25 +16,27 @@ They emit [debugging events](../Debugging/onDevHook), so you can see which actio
 ```ts
 import { action, signal, onCleanup } from "@monstermann/signals";
 
-type Payload = { type: "inc" } | { type: "dec" };
-
 const count = signal(0);
 
 // Create:
-const dispatch = action((payload: Payload): number => {
-    switch (payload.type) {
-        case "inc":
-            count((n) => n + 1);
-        case "dec":
-            count((n) => n - 1);
-    }
-    // Do something before this runs next time:
-    onCleanup(() => {});
-    return count();
-});
+const updateCount = action(
+    (type: "inc" | "dec", amount: number = 1): number => {
+        switch (type) {
+            case "inc":
+                count((n) => n + amount);
+                break;
+            case "dec":
+                count((n) => n - amount);
+                break;
+        }
+        // Do something before this runs next time:
+        onCleanup(() => {});
+        return count();
+    },
+);
 
 // Run (batched + untracked):
-const result = dispatch({ type: "inc" });
+const result = updateCount("inc", 5);
 ```
 
 ## Options

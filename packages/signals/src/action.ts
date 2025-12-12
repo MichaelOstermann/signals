@@ -7,8 +7,8 @@ import { register, registry, toList } from "./internals/registry"
 import { defer, deferBatch, deferCleanups, deferUntrack, run } from "./internals/runner"
 import { ACTION } from "./symbols"
 
-export interface Action<T = any, U = any> {
-    (...args: ([T] extends [never] ? [] : [payload: T])): U
+export interface Action<T extends unknown[] = any[], U = any> {
+    (...args: T): U
     kind: ACTION
     meta: Meta
 }
@@ -19,15 +19,15 @@ const actions = registry<Action>()
 export const isAction = isKind<Action>(ACTION)
 export const getActions = toList(actions)
 
-export function action<T = never, U = void>(
-    handler: (payload: T) => U,
+export function action<T extends unknown[] = never, U = void>(
+    handler: (...args: T) => U,
     options?: ActionOptions,
     _meta?: UnpluginMeta,
 ): Action<T, U> {
     let cleanups: Disposer | undefined
     const meta = createMeta("Action", options, _meta)
 
-    const action: Action<T, U> = (input?: any) => run(() => {
+    const action: Action<T, U> = (...input: any) => run(() => {
         let output: U
         deferBatch()
         deferUntrack()
@@ -36,7 +36,7 @@ export function action<T = never, U = void>(
             defer(() => emit({ action: action as Action, name: "ACTION_END", output }))
         }
         cleanups = deferCleanups(cleanups)
-        output = handler(input)
+        output = handler(...input)
         return output
     })
 
