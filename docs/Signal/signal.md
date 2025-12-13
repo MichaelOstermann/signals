@@ -35,7 +35,10 @@ signal(); // 2
     internal: true,
     // Whether this signal should emit debugging events:
     silent: true,
-    // Provide a custom comparator (runs after a basic === check):
+    // Whether this signal holds a mutable value (eg. Map, Set, Array, Object).
+    // If set to `true`, skips the basic === check and always updates dependents:
+    mutable: true,
+    // Provide a custom comparator (runs after the basic === check):
     equals(before, after) {
         return true;
     },

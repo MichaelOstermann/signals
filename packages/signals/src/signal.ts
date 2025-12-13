@@ -22,6 +22,7 @@ export interface ReadonlySignal<T = any> {
 }
 
 export interface SignalOptions<T> extends MetaOptions {
+    mutable?: boolean
     equals?: (before: T, after: T) => boolean
     onRead?: () => void
     onWatch?: () => Dispose | void
@@ -61,7 +62,7 @@ export function signal<T>(
     const signal = function (...args: [T] | []): T | void {
         if (args.length === 0) return s.get()
         const next = typeof args[0] === "function" ? args[0](prev) : args[0]
-        if (prev === next || options?.equals?.(prev, next)) return
+        if ((!options?.mutable && prev === next) || options?.equals?.(prev, next)) return
         if (!meta.silent) emit({ name: "SIGNAL_WRITE", next, prev, signal })
         s.set(prev = next)
     } as Signal<T>
