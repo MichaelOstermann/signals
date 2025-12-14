@@ -20,7 +20,7 @@
     },
     "packages/signals": {
       "name": "@monstermann/signals",
-      "version": "0.1.2",
+      "version": "0.2.0",
       "dependencies": {
         "@monstermann/dll": "^0.0.2",
         "@monstermann/dsp": "^0.2.3",
@@ -33,7 +33,7 @@
     },
     "packages/unplugin-signals": {
       "name": "@monstermann/unplugin-signals",
-      "version": "0.1.2",
+      "version": "0.2.0",
       "dependencies": {
         "@monstermann/transform-meta": "^0.1.1",
         "unplugin": "^2.3.4",
