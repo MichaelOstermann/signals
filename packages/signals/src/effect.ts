@@ -54,7 +54,7 @@ export function effect(
 
 export function deferEffect<T = void>(fn: (
     resolve: (value: T) => void,
-    reject: (reason?: any) => void
+    reject: (reason?: any) => void,
 ) => MaybeDispose, options?: EffectOptions, _meta?: UnpluginMeta): Promise<T> {
     let dispose: Effect
     return new Promise<T>((resolve, reject) => {
