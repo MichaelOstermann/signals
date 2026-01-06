@@ -39,6 +39,6 @@
     },
     "devDependencies": {
         "@monstermann/unplugin-dll": "^0.0.2",
-        "@monstermann/unplugin-dsp": "^0.2.3"
+        "@monstermann/unplugin-dsp": "^0.3.0"
     }
 }
