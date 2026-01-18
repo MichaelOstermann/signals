@@ -67,7 +67,13 @@ export function indexed<T, K, V>(
     _meta?: UnpluginMeta,
 ): MemoIndex<K, V> {
     const cache = new Map<K, WeakRef<Memo<V | undefined>>>()
-    const finalizers = new FinalizationRegistry<K>(key => cache.delete(key))
+    const finalizers = new FinalizationRegistry<{ key: K, ref: WeakRef<Memo<V | undefined>> }>(
+        ({ key, ref }) => {
+            if (cache.get(key) === ref) {
+                cache.delete(key)
+            }
+        },
+    )
 
     const index = memo<Map<K, V>>((prevIdx = new Map()) => {
         let hasChanges = false
@@ -88,7 +94,7 @@ export function indexed<T, K, V>(
         const c = memo(() => index().get(key))
         const ref = new WeakRef(c)
         cache.set(key, ref)
-        finalizers.register(c, key, ref)
+        finalizers.register(c, { key, ref })
         return c
     }
 
