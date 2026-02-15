@@ -106,7 +106,7 @@
         "release": "bun publish --access public"
     },
     "dependencies": {
-        "@monstermann/transform-meta": "^0.2.0",
+        "@monstermann/transform-meta": "^0.3.0",
         "unplugin": "^3.0.0",
         "unplugin-utils": "^0.3.1"
     }

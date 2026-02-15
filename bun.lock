@@ -35,7 +35,7 @@
       "name": "@monstermann/unplugin-signals",
       "version": "0.2.2",
       "dependencies": {
-        "@monstermann/transform-meta": "^0.2.0",
+        "@monstermann/transform-meta": "^0.3.0",
         "unplugin": "^3.0.0",
         "unplugin-utils": "^0.3.1",
       },
@@ -288,7 +288,7 @@
 
     "@monstermann/signals": ["@monstermann/signals@workspace:packages/signals"],
 
-    "@monstermann/transform-meta": ["@monstermann/transform-meta@0.2.0", "", { "dependencies": { "@jridgewell/remapping": "^2.3.4", "@jridgewell/sourcemap-codec": "^1.5.4", "magic-string": "^0.30.17", "oxc-parser": "^0.101.0", "oxc-walker": "^0.6.0" } }, "sha512-E2YGg2X8N7uiIRVfmoY7eP9aPatbe65xRSy3Db5uZmv/CDqAcFU+34+sn/h7FxUI7ukK1M7qXuIGqpqAktC86w=="],
+    "@monstermann/transform-meta": ["@monstermann/transform-meta@0.3.0", "", { "dependencies": { "@jridgewell/remapping": "^2.3.4", "@jridgewell/sourcemap-codec": "^1.5.4", "magic-string": "^0.30.17", "oxc-parser": "^0.101.0", "oxc-walker": "^0.6.0" } }, "sha512-2E6iT45Rp92xPPq4syOxX4auAJBgCCf/QAmEFHMcQzIkq1rm822sC1bgQERuhevHMNtVkM77h28aYkjtd0Oz+Q=="],
 
     "@monstermann/tree-shake-import-namespaces": ["@monstermann/tree-shake-import-namespaces@0.3.0", "", { "dependencies": { "@jridgewell/remapping": "^2.3.4", "@jridgewell/sourcemap-codec": "^1.5.4", "astring": "^1.9.0", "magic-string": "^0.30.17", "oxc-parser": "^0.101.0", "oxc-walker": "^0.6.0", "picocolors": "^1.1.1" } }, "sha512-ipwNfixAUhSvsZ13wHN72QyxIHTX5mE4TfGpyvNqi2YPF/f+sbUpbmJ/yRHJoTwEarogEa4OsHKHXYE90pjOHA=="],
 
