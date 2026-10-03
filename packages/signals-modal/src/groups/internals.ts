@@ -1,5 +1,3 @@
-// Plain maps instead of signals: modals are created and disposed all the time,
-// and nothing should have to rerun or recompute because of that.
 export const keysToGroups = new Map<string, Set<string>>()
 export const groupsToKeys = new Map<string, Set<string>>()
 
