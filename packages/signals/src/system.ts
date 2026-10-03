@@ -106,8 +106,6 @@ function addDependency(signal: RawSignal): ReactiveNode | undefined {
 function recordBatchSnapshot(source: RawSignal, value: unknown): void {
     // Only capture writes of the batch itself, not the ones effects do while it is flushed.
     if (batchDepth === 0 || batchIteration !== 0) return
-    // The value of a mutable signal can be the same and still have changed.
-    if (source.mutable) return
 
     if (source.snapshot !== undefined) {
         if (source.value === value) source.snapshot.value = UNKNOWN
@@ -218,7 +216,6 @@ function prepareSources(target: RawMemo | RawEffect) {
 
 // @ts-expect-error ignore
 export declare class RawSignal<T = any> {
-    mutable: boolean
     node: ReactiveNode | undefined
     notified: number
     onRead?: () => void
@@ -238,7 +235,6 @@ export declare class RawSignal<T = any> {
 }
 
 export interface RawSignalOptions {
-    mutable?: boolean
     onRead?: () => void
     onWatch?: () => Dispose | void
 }
@@ -250,7 +246,6 @@ export function RawSignal(this: RawSignal, value?: unknown, options?: RawSignalO
     this.targets = undefined
     this.snapshot = undefined
     this.notified = 0
-    this.mutable = options?.mutable === true
     this.value = value
     this.version = 0
     this.onRead = options?.onRead

@@ -15,7 +15,6 @@ export interface ReadonlySignal<T = any> {
 }
 
 export interface SignalOptions<T> {
-    mutable?: boolean
     equals?: (before: T, after: T) => boolean
     onRead?: () => void
     onWatch?: () => Dispose | void
@@ -52,10 +51,7 @@ export interface SignalOptions<T> {
  *
  * ```ts
  * signal(value, {
- *     // Whether this signal holds a mutable value (eg. Map, Set, Array, Object).
- *     // If set to `true`, skips the basic === check and always updates dependents:
- *     mutable: true,
- *     // Provide a custom comparator (runs after the basic === check):
+ *     // Provide a custom comparator (runs after a basic === check):
  *     equals(before, after) {
  *         return true;
  *     },
@@ -94,7 +90,7 @@ export function signal<T>(
     const signal = function (...args: [T] | []): T | void {
         if (args.length === 0) return s.get()
         const next = typeof args[0] === "function" ? args[0](prev) : args[0]
-        if ((!options?.mutable && prev === next) || options?.equals?.(prev, next)) return
+        if (prev === next || options?.equals?.(prev, next)) return
         s.set(prev = next)
     } as Signal<T>
 

@@ -66,26 +66,6 @@ describe("batch", () => {
         expect(m()).toBe(4)
     })
 
-    it("should rerun for mutable signals that keep their value", () => {
-        const list: number[] = []
-        const a = signal(list, { mutable: true })
-        const spy = vi.fn(() => void a())
-        effect(spy)
-
-        batch(() => {
-            list.push(1)
-            a(list)
-        })
-        expect(spy).toHaveBeenCalledTimes(2)
-
-        batch(() => {
-            a([])
-            list.push(2)
-            a(list)
-        })
-        expect(spy).toHaveBeenCalledTimes(3)
-    })
-
     it("should handle writes to the same signal in nested batches", () => {
         const a = signal(1)
         const spy = vi.fn(() => void a())
