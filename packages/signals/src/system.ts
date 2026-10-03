@@ -453,6 +453,7 @@ RawEffect.prototype.end = function (this: RawEffect) {
     Dll.unlink(sub, sub.tail!)
 
     this.flags &= ~RUNNING
+    if (this.flags & DISPOSED) disposeEffect(this)
     endBatch()
 }
 
@@ -470,16 +471,20 @@ RawEffect.prototype.run = function (this: RawEffect): void {
 
 RawEffect.prototype.dispose = function (this: RawEffect): void {
     this.flags |= DISPOSED
+    // While running, the sources are being collected, `end` takes care of it.
+    if (!(this.flags & RUNNING)) disposeEffect(this)
+}
 
+function disposeEffect(effect: RawEffect): void {
     for (
-        let node = this.sources;
+        let node = effect.sources;
         node !== undefined;
         node = node.nextSource
     ) {
         node.source.unsubscribe(node)
     }
-    this.fn = undefined
-    this.sources = undefined
+    effect.fn = undefined
+    effect.sources = undefined
 }
 
 export function isBatching(): boolean {
