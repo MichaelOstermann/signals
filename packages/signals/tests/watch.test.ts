@@ -102,7 +102,7 @@ describe("watch", () => {
         const hmr = new Set<() => void>()
         const a = signal(1)
         const spy = vi.fn()
-        watch(a, spy, undefined, { hmr, line: 1, name: "", path: "source.ts" })
+        watch(a, spy, undefined, { hmr })
 
         for (const cb of hmr) cb()
         a(2)

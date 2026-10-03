@@ -102,7 +102,7 @@ describe("effect", () => {
         const hmr = new Set<() => void>()
         const a = signal(0)
         const spy = vi.fn(() => void a())
-        const fx = effect(spy, { hmr, line: 1, name: "", path: "source.ts" })
+        const fx = effect(spy, { hmr })
 
         for (const cb of hmr) cb()
         a(1)
@@ -114,7 +114,7 @@ describe("effect", () => {
 
     it("should not keep a reference in hmr when disposed", () => {
         const hmr = new Set<() => void>()
-        const fx = effect(() => {}, { hmr, line: 1, name: "", path: "source.ts" })
+        const fx = effect(() => {}, { hmr })
         expect(hmr.size).toBe(1)
         dispose(fx)
         expect(hmr.size).toBe(0)

@@ -121,7 +121,7 @@ describe("emitter", () => {
 
     it("should be disposed when its module is replaced", () => {
         const hmr = new Set<() => void>()
-        const onMessage = emitter<number>({ hmr, line: 1, name: "onMessage", path: "source.ts" })
+        const onMessage = emitter<number>({ hmr })
         const a = vi.fn()
         onMessage(a)
 
