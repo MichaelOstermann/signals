@@ -1,7 +1,7 @@
 {
     "name": "@monstermann/signals-transform",
     "type": "module",
-    "version": "0.9.0",
+    "version": "0.10.0",
     "description": "Disposes the effects of @monstermann/signals during HMR and writes useSignal for React.",
     "author": "Michael Ostermann <michaelostermann@me.com>",
     "license": "MIT",
