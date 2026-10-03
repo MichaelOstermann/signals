@@ -2,7 +2,7 @@ import { describe, expect, it } from "bun:test"
 import { signals, transform } from "../src"
 
 const code = `
-import { action, effect, emitter, memo, signal, watch } from "@monstermann/signals"
+import { action, deferEffect, effect, emitter, memo, signal, watch } from "@monstermann/signals"
 
 const count = signal(0)
 const double = memo(() => count() * 2)
@@ -10,6 +10,7 @@ const onChange = emitter()
 const increment = action(() => count(n => n + 1))
 effect(() => console.log(count()))
 watch(count, () => onChange())
+deferEffect(resolve => resolve())
 `
 
 describe("transform", () => {
@@ -27,6 +28,7 @@ describe("transform", () => {
         expect(result).toContain("signal(0)")
         expect(result).toContain("memo(() => count() * 2)")
         expect(result).toContain("action(() => count(n => n + 1))")
+        expect(result).toContain("deferEffect(resolve => resolve())")
         expect(result).toMatch(/emitter\(meta\d*\)/)
         expect(result).toMatch(/effect\(\(\) => console.log\(count\(\)\), meta\d*\)/)
         expect(result).toMatch(/watch\(count, \(\) => onChange\(\), undefined, meta\d*\)/)

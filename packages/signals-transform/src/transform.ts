@@ -27,7 +27,6 @@ export interface SignalsResult {
 const module = "@monstermann/signals"
 
 const params: MetaOptions["params"] = [
-    { function: "deferEffect", module, position: 2 },
     { function: "effect", module, position: 2 },
     { function: "emitter", module, position: 1 },
     { function: "watch", module, position: 4 },

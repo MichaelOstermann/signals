@@ -170,10 +170,10 @@ export function effect(
 export function deferEffect<T = void>(fn: (
     resolve: (value: T) => void,
     reject: (reason?: any) => void,
-) => MaybeDispose, meta?: Meta): Promise<T> {
+) => MaybeDispose): Promise<T> {
     let dispose: Effect
     return new Promise<T>((resolve, reject) => {
-        dispose = effect(() => fn(resolve, reject), meta)
+        dispose = effect(() => fn(resolve, reject))
         dispose(reject)
     }).finally(() => dispose())
 }
