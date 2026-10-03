@@ -14,7 +14,7 @@
     },
     "packages/signals": {
       "name": "@monstermann/signals",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "dependencies": {
         "@monstermann/fn": "^0.12.0",
       },
@@ -24,7 +24,7 @@
     },
     "packages/signals-modal": {
       "name": "@monstermann/signals-modal",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "dependencies": {
         "@monstermann/fn": "^0.12.0",
       },
@@ -38,7 +38,7 @@
     },
     "packages/signals-react": {
       "name": "@monstermann/signals-react",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "devDependencies": {
         "@monstermann/signals": "workspace:*",
         "@types/react": "^19.2.4",
@@ -51,7 +51,7 @@
     },
     "packages/signals-transform": {
       "name": "@monstermann/signals-transform",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "dependencies": {
         "@jridgewell/remapping": "^2.3.5",
         "@monstermann/meta": "^0.5.0",
