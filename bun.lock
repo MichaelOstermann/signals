@@ -19,7 +19,7 @@
         "@monstermann/fn": "^0.12.0",
       },
       "devDependencies": {
-        "@monstermann/fn-transform": "^0.11.0",
+        "@monstermann/fn-transform": "^0.12.0",
       },
     },
     "packages/signals-modal": {
@@ -29,7 +29,7 @@
         "@monstermann/fn": "^0.12.0",
       },
       "devDependencies": {
-        "@monstermann/fn-transform": "^0.11.0",
+        "@monstermann/fn-transform": "^0.12.0",
         "@monstermann/signals": "workspace:*",
       },
       "peerDependencies": {
@@ -192,7 +192,7 @@
 
     "@monstermann/fn": ["@monstermann/fn@0.12.0", "", { "dependencies": { "string-ts": "^2.2.1", "type-fest": "^5.0.0" } }, "sha512-dSIoOXl14mjIh2pY9D6rdXxslqDXmcafod0MY0s1G6uORMJFNS16l8SNBiXZZcRTZBOebxTHatQxBUB0ZTZBCQ=="],
 
-    "@monstermann/fn-transform": ["@monstermann/fn-transform@0.11.0", "", { "dependencies": { "@jridgewell/remapping": "^2.3.5", "@monstermann/barrels-treeshake": "^0.5.0", "magic-string": "^1.4.2", "oxc-parser": "^0.152.0", "oxc-walker": "^1.1.1" } }, "sha512-jI9/aRo9FTQGQprB8V109x/9S3WLSvy5QqMf6Ycfuf9Hjc81Ju6qrdwMSCIlwQPpgXWIWbwg78ZJVC+YhNhH3w=="],
+    "@monstermann/fn-transform": ["@monstermann/fn-transform@0.12.0", "", { "dependencies": { "@jridgewell/remapping": "^2.3.5", "@monstermann/barrels-treeshake": "^0.5.0", "magic-string": "^1.4.2", "oxc-parser": "^0.152.0", "oxc-walker": "^1.1.1" } }, "sha512-yrz/KGOMMZ/rtj2ydHV7ISpF248PWY7wvbKGiq/NHziJ/7NTSsZRUwHMLuZn2T/yD7wAb3pjndTB28C4h9R5ZQ=="],
 
     "@monstermann/meta": ["@monstermann/meta@0.5.0", "", { "dependencies": { "magic-string": "^1.4.2", "oxc-parser": "^0.152.0", "oxc-walker": "^1.1.1" } }, "sha512-isMLwY5rGdjv03I5ew8QWuQKJxrRH+eUOv8PdnqJosS5jgzOG4HgZF9JKpeRatGPyZXDZpeUJgkvKalXhXfxDA=="],
 
