@@ -1,4 +1,4 @@
-import type { MetaOptions } from "@monstermann/meta"
+import type { MetaParam } from "@monstermann/meta"
 import type { SourceMap } from "magic-string"
 import remapping from "@jridgewell/remapping"
 import { transform as transformMeta } from "@monstermann/meta"
@@ -26,10 +26,13 @@ export interface SignalsResult {
 
 const module = "@monstermann/signals"
 
-const params: MetaOptions["params"] = [
-    { function: "effect", module, position: 2 },
-    { function: "emitter", module, position: 1 },
-    { function: "watch", module, position: 4 },
+// Effects, watchers and emitters only receive what is needed to dispose them.
+const hmrOnly: MetaParam["meta"] = ({ hmr }) => ({ hmr })
+
+const params: MetaParam[] = [
+    { function: "effect", meta: hmrOnly, module, position: 2 },
+    { function: "emitter", meta: hmrOnly, module, position: 1 },
+    { function: "watch", meta: hmrOnly, module, position: 4 },
 ]
 
 /**

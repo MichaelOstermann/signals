@@ -54,7 +54,7 @@
       "version": "0.8.0",
       "dependencies": {
         "@jridgewell/remapping": "^2.3.5",
-        "@monstermann/meta": "^0.4.0",
+        "@monstermann/meta": "^0.5.0",
         "magic-string": "^1.4.2",
         "oxc-parser": "^0.152.0",
         "oxc-walker": "^1.1.1",
@@ -194,7 +194,7 @@
 
     "@monstermann/fn-transform": ["@monstermann/fn-transform@0.11.0", "", { "dependencies": { "@jridgewell/remapping": "^2.3.5", "@monstermann/barrels-treeshake": "^0.5.0", "magic-string": "^1.4.2", "oxc-parser": "^0.152.0", "oxc-walker": "^1.1.1" } }, "sha512-jI9/aRo9FTQGQprB8V109x/9S3WLSvy5QqMf6Ycfuf9Hjc81Ju6qrdwMSCIlwQPpgXWIWbwg78ZJVC+YhNhH3w=="],
 
-    "@monstermann/meta": ["@monstermann/meta@0.4.0", "", { "dependencies": { "magic-string": "^1.4.2", "oxc-parser": "^0.152.0", "oxc-walker": "^1.1.1" } }, "sha512-EA/jYS9FDw4sntRGlHGD2cd4JuT87BIKMUGpSYTQjsERbDeM0GVlwMFmME8DY2kjZA0ecVgiIC2rLG9Qz387yQ=="],
+    "@monstermann/meta": ["@monstermann/meta@0.5.0", "", { "dependencies": { "magic-string": "^1.4.2", "oxc-parser": "^0.152.0", "oxc-walker": "^1.1.1" } }, "sha512-isMLwY5rGdjv03I5ew8QWuQKJxrRH+eUOv8PdnqJosS5jgzOG4HgZF9JKpeRatGPyZXDZpeUJgkvKalXhXfxDA=="],
 
     "@monstermann/signals": ["@monstermann/signals@workspace:packages/signals"],
 

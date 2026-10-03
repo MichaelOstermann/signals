@@ -125,7 +125,7 @@ const hmr = import.meta.hot
     ? (import.meta.hot.data["@monstermann/meta"] ??= new globalThis.Set())
     : undefined;
 // …calls and clears `hmr` when the module is replaced or removed
-const meta = { path: "src/save.ts", line: 3, name: "", hmr: hmr };
+const meta = { hmr: hmr };
 
 effect(() => {}, meta);
 ```
