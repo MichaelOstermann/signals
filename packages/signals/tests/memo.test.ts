@@ -31,6 +31,22 @@ describe("memo", () => {
         expect(spy).toHaveBeenCalledTimes(2)
     })
 
+    it("should not call equals for identical values", () => {
+        const a = signal(0)
+        const value = {}
+        const equals = vi.fn(() => true)
+        const m = memo(() => {
+            a()
+            return value
+        }, { equals })
+
+        m()
+        a(1)
+        m()
+
+        expect(equals).toHaveBeenCalledTimes(0)
+    })
+
     it("should rethrow what the computation throws", () => {
         const promise = Promise.resolve()
         const m = memo(() => {
@@ -115,5 +131,24 @@ describe("indexed", () => {
 
         items([{ id: 1, name: "b" }])
         expect(index()).not.toBe(before)
+    })
+
+    it("should keep the values of equal entries when another entry changes", () => {
+        const make = (changed: number): Item[] => Array.from({ length: 5 }, (_, id) => ({ id, name: id === changed ? "changed" : "same" }))
+        const items = signal(make(-1))
+        const index = indexed(items, item => [item.id, item], { equals: (before, after) => before.name === after.name })
+        const spies = Array.from({ length: 5 }, (_, id) => {
+            const entry = index.for(id)
+            const spy = vi.fn(() => void entry())
+            effect(spy)
+            return spy
+        })
+        const before = index.get(0)
+
+        items(make(3))
+
+        expect(index.get(0)).toBe(before)
+        expect(index.get(3)?.name).toBe("changed")
+        expect(spies.map(spy => spy.mock.calls.length)).toEqual([1, 1, 1, 2, 1])
     })
 })

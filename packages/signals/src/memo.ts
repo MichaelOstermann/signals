@@ -62,7 +62,7 @@ export function memo<T>(
     const m = new RawMemo<T>(equals
         ? () => {
                 const next = computation()
-                if (init && equals(prev, next)) return prev
+                if (init && (prev === next || equals(prev, next))) return prev
                 init = true
                 return prev = next
             }
@@ -131,10 +131,15 @@ export function indexed<T, K, V>(
         const nextIdx = new Map<K, V>()
         for (const entry of target()) {
             const [key, nextVal] = by(entry)
-            if (!hasChanges) {
+            if (prevIdx.has(key)) {
                 const prevVal = prevIdx.get(key) as V
-                hasChanges = !prevIdx.has(key) || !(prevVal === nextVal || equals?.(prevVal, nextVal) === true)
+                // Equal entries keep their previous value, so what reads them does not see a change.
+                if (prevVal === nextVal || equals?.(prevVal, nextVal) === true) {
+                    nextIdx.set(key, prevVal)
+                    continue
+                }
             }
+            hasChanges = true
             nextIdx.set(key, nextVal)
         }
         hasChanges ||= nextIdx.size !== prevIdx.size
