@@ -6,12 +6,12 @@
 
 </div>
 
-| Package                                                          | Description                                                                |
-| ---------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| [`@monstermann/signals`](./packages/signals)                     | The library.                                                               |
-| [`@monstermann/signals-transform`](./packages/signals-transform) | Names actions, disposes effects during HMR and writes useSignal for React. |
-| [`@monstermann/signals-react`](./packages/signals-react)         | React integration for @monstermann/signals.                                |
-| [`@monstermann/signals-modal`](./packages/signals-modal)         | Composable modal management.                                               |
+| Package                                                          | Description                                                 |
+| ---------------------------------------------------------------- | ----------------------------------------------------------- |
+| [`@monstermann/signals`](./packages/signals)                     | The library.                                                |
+| [`@monstermann/signals-transform`](./packages/signals-transform) | Disposes effects during HMR and writes useSignal for React. |
+| [`@monstermann/signals-react`](./packages/signals-react)         | React integration for @monstermann/signals.                 |
+| [`@monstermann/signals-modal`](./packages/signals-modal)         | Composable modal management.                                |
 
 ## Development
 

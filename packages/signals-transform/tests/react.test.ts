@@ -252,15 +252,15 @@ describe("react", () => {
         expect(result?.map.sources).toEqual(["source.jsx"])
     })
 
-    test("Should work together with naming actions", () => {
+    test("Should work together with hmr", () => {
         const code = [
-            `import { action, signal } from "@monstermann/signals"`,
+            `import { effect, signal } from "@monstermann/signals"`,
             `const $count = signal(0)`,
-            `const increment = action(() => $count(n => n + 1))`,
-            `export const Counter = () => <button onClick={increment}>{$count()}</button>`,
+            `effect(() => console.log($count()))`,
+            `export const Counter = () => <button>{$count()}</button>`,
         ].join("\n")
-        const result = transform(code, "source.jsx", { react: true })
-        expect(result?.code).toContain(`name: "increment"`)
+        const result = transform(code, "source.jsx", { hmr: true, react: true })
+        expect(result?.code).toContain("import.meta.hot")
         expect(result?.code).toContain(`import { useSignal } from "@monstermann/signals-react";`)
         expect(result?.code).toContain("{useSignal($count)}")
         expect(result?.map.sources).toEqual(["source.jsx"])

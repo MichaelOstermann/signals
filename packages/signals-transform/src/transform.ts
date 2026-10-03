@@ -5,7 +5,12 @@ import { transform as transformMeta } from "@monstermann/meta"
 import { SourceMap as MagicSourceMap } from "magic-string"
 import { transformReact } from "./react"
 
-export interface SignalsOptions extends Omit<MetaOptions, "params"> {
+export interface SignalsOptions {
+    /**
+     * Whether to dispose effects, watchers and emitters when their module is replaced.
+     * @default false
+     */
+    hmr?: boolean
     /**
      * Whether to wrap reads of signals in React components and hooks with `useSignal` from `@monstermann/signals-react`.
      * Signals are recognized by their `$` prefix: `$count()`, `state.$count()`.
@@ -22,28 +27,24 @@ export interface SignalsResult {
 const module = "@monstermann/signals"
 
 const params: MetaOptions["params"] = [
-    { function: "action", module, position: 2 },
     { function: "deferEffect", module, position: 2 },
     { function: "effect", module, position: 2 },
     { function: "emitter", module, position: 1 },
     { function: "watch", module, position: 4 },
 ]
 
-const actions = params.slice(0, 1)
-
 /**
- * - Passes the name, path and line of where they have been created to actions.
  * - With `hmr`, passes what is needed to dispose effects, watchers and emitters when their module is replaced.
  * - With `react`, wraps reads of signals in components and hooks with `useSignal`.
  *
  * Returns `undefined` when nothing changed.
  */
-export function transform(code: string, id: string, { react, ...options }: SignalsOptions = {}): SignalsResult | undefined {
+export function transform(code: string, id: string, { hmr, react }: SignalsOptions = {}): SignalsResult | undefined {
     const maps: SourceMap[] = []
 
     // Nothing to do when the package is not mentioned, skip parsing.
-    if (code.includes(module)) {
-        const meta = transformMeta(code, id, { ...options, params: options.hmr ? params : actions })
+    if (hmr && code.includes(module)) {
+        const meta = transformMeta(code, id, { hmr, params })
         if (meta) {
             code = meta.code
             maps.push(meta.map)

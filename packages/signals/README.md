@@ -9,14 +9,7 @@
 A fork of [`@preact/signals-core`](https://github.com/preactjs/signals) where signals are functions, with a couple of additions.
 
 ```ts
-import {
-    action,
-    batch,
-    effect,
-    memo,
-    onAction,
-    signal,
-} from "@monstermann/signals";
+import { action, batch, effect, memo, signal } from "@monstermann/signals";
 
 const count = signal(0);
 const double = memo(() => count() * 2);
@@ -39,9 +32,6 @@ batch(() => {
 // Batched and untracked functions:
 const increment = action((by: number) => count((n) => n + by));
 
-// A log of what happened:
-onAction((action, args) => console.log(action.meta.name, args));
-
 dispose();
 ```
 
@@ -59,7 +49,7 @@ Everything is documented with JSDoc, including examples.
 | --------- | ----------------------------------------------------------------------------------------------- |
 | State     | `signal`, `memo`, `indexed`, `reducer`                                                          |
 | Reactions | `effect`, `deferEffect`, `watch`, `onCleanup`                                                   |
-| Actions   | `action`, `onAction`                                                                            |
+| Actions   | `action`                                                                                        |
 | Events    | `emitter`                                                                                       |
 | Disposal  | `disposer`, `dispose`, `onDispose`, `isDisposed`, `disposed`, `mixinDisposer`                   |
 | Batching  | `batch`, `startBatch`, `endBatch`, `isBatching`                                                 |
@@ -67,6 +57,6 @@ Everything is documented with JSDoc, including examples.
 | Running   | `hasEffect`, `currentEffect`, `disposeEffect`, `hasWatcher`, `currentWatcher`, `disposeWatcher` |
 | Other     | `context`, `RawSignal`, `RawMemo`, `RawEffect`                                                  |
 
-## Names and HMR
+## HMR
 
-[`@monstermann/signals-transform`](../signals-transform) gives actions the name, path and line of where they have been created (`action.meta`), and disposes effects, watchers and emitters when their module is replaced during development.
+[`@monstermann/signals-transform`](../signals-transform) disposes effects, watchers and emitters when their module is replaced during development.

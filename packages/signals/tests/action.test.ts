@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "bun:test"
-import { action, effect, onAction, onCleanup, signal } from "../src"
+import { action, effect, onCleanup, signal } from "../src"
 
 describe("action", () => {
     it("should pass arguments and return the result", () => {
@@ -58,48 +58,5 @@ describe("action", () => {
         expect(spy).toHaveBeenCalledTimes(0)
         run()
         expect(spy).toHaveBeenCalledTimes(1)
-    })
-
-    it("should have metadata", () => {
-        expect(action(() => {}).meta).toEqual({ line: 0, name: "", path: "" })
-        expect(action(() => {}, { name: "save" }).meta).toEqual({ line: 0, name: "save", path: "" })
-        expect(action(() => {}, { hmr: new Set(), line: 3, name: "save", path: "src/save.ts" }).meta)
-            .toEqual({ line: 3, name: "save", path: "src/save.ts" })
-    })
-})
-
-describe("onAction", () => {
-    it("should be called before an action runs", () => {
-        const order: string[] = []
-        const save = action((a: number, b: string) => void order.push(`run ${a} ${b}`), { name: "save" })
-        const dispose = onAction((action, args) => void order.push(`${action.meta.name} ${args.join(" ")}`))
-
-        save(1, "a")
-        expect(order).toEqual(["save 1 a", "run 1 a"])
-
-        dispose()
-        save(2, "b")
-        expect(order).toEqual(["save 1 a", "run 1 a", "run 2 b"])
-    })
-
-    it("should only keep the latest listener", () => {
-        const first = vi.fn()
-        const second = vi.fn()
-        const run = action(() => {})
-
-        const disposeFirst = onAction(first)
-        const disposeSecond = onAction(second)
-        run()
-        expect(first).toHaveBeenCalledTimes(0)
-        expect(second).toHaveBeenCalledTimes(1)
-
-        // Does not remove the listener that replaced it.
-        disposeFirst()
-        run()
-        expect(second).toHaveBeenCalledTimes(2)
-
-        disposeSecond()
-        run()
-        expect(second).toHaveBeenCalledTimes(2)
     })
 })

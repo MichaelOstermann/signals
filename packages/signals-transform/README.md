@@ -2,36 +2,14 @@
 
 <h1>signals-transform</h1>
 
-**Names the actions of `@monstermann/signals`, disposes its effects during HMR and writes `useSignal` for React.**
+**Disposes the effects of `@monstermann/signals` during HMR and writes `useSignal` for React.**
 
 </div>
 
-Before:
-
-```ts
-import { action, effect } from "@monstermann/signals";
-
-const save = action(() => {});
-
-effect(() => {});
-```
-
-After:
-
-```ts
-import { action, effect } from "@monstermann/signals";
-const path = "src/save.ts";
-const meta = { path: path, line: 3, name: "save" };
-
-const save = action(() => {}, meta);
-
-effect(() => {});
-```
-
-- Actions receive the name, path and line of where they have been created, available as `action.meta` and meant for `onAction`.
-- With `hmr`, effects, watchers and emitters are disposed when the module that created them is replaced.
-- Signals, memos and reducers are left alone.
+- During development, effects, watchers and emitters are disposed when the module that created them is replaced (HMR).
 - With `react`, reads of signals in components are wrapped with `useSignal`, see [React](#react).
+
+A production build without `react` is left untouched.
 
 ## Installation
 
@@ -55,8 +33,6 @@ export default defineConfig({
 | --------- | -------------- | --------------------------------------------------------------------------------- |
 | `hmr`     | `false`        | `true` in the dev server of Vite. Relies on `import.meta.hot`.                    |
 | `react`   | `false`        | Wraps reads of signals in React components with `useSignal`, see [React](#react). |
-| `getName` |                | `(name) => string`, changes the name of an action.                                |
-| `getPath` |                | `(path) => string`, changes the path, which is relative to `process.cwd()`.       |
 | `include` | `/\.[jt]sx?$/` | RegExp(s), only files whose path matches are transformed.                         |
 | `exclude` |                | RegExp(s), files whose path matches are skipped.                                  |
 | `enforce` |                | `"pre"` or `"post"`.                                                              |
@@ -133,10 +109,29 @@ export function Component({ className }) {
 - Reads that are already inside `useSignal(…)` are left alone.
 - Files without a `$` are skipped by this step without being parsed.
 
-## Details
+## HMR
 
+When a module is replaced during development, the effects, watchers and emitters its previous version created would keep running. With `hmr`, they are disposed right before the module runs again, and when it is removed.
+
+```ts
+import { effect } from "@monstermann/signals";
+
+effect(() => {});
+```
+
+```ts
+import { effect } from "@monstermann/signals";
+const hmr = import.meta.hot
+    ? (import.meta.hot.data["@monstermann/meta"] ??= new globalThis.Set())
+    : undefined;
+// …calls and clears `hmr` when the module is replaced or removed
+const meta = { path: "src/save.ts", line: 3, name: "", hmr: hmr };
+
+effect(() => {}, meta);
+```
+
+- Enabled by default in the dev server of Vite, and off for builds.
+- It relies on `import.meta.hot`.
+- Calls are found through their import, renamed imports (`import { effect as e }`) and namespace imports (`import * as S`) included.
 - Files that do not mention `@monstermann/signals` are skipped without being parsed.
-- Calls are found through their import, renamed imports (`import { action as a }`) and namespace imports (`import * as S`) included.
-- The name is taken from what the result is assigned to: `const save = action(…)` is `"save"`, `{ save: action(…) }` inside `const tasks` is `"tasks.save"`.
-- An action that already has a second argument (`action(fn, { name: "save" })`) is left alone.
 - Built on [`@monstermann/meta`](https://github.com/MichaelOstermann/meta).

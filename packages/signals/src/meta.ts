@@ -1,4 +1,4 @@
-/** What `@monstermann/signals-transform` passes as the last argument. */
+/** What `@monstermann/signals-transform` passes as the last argument to effects, watchers and emitters during development. */
 export interface Meta {
     readonly hmr?: Set<() => void>
     readonly line: number
