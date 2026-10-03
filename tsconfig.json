@@ -1,6 +1,9 @@
 {
     "extends": "@monstermann/tsconfig",
-    "compilerOptions": {},
+    "compilerOptions": {
+        "lib": ["DOM", "DOM.Iterable", "ES2023", "ESNext.Disposable"],
+        "types": ["bun"]
+    },
     "exclude": [
         "**/dist/**",
         "**/node_modules/**"
