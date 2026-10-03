@@ -1,9 +1,9 @@
-import { $keysToStatus } from "./internals"
+import { keysToStatus } from "./internals"
 
 /**
  * # isModalOpening
  *
- * Reactive: subscribes when read inside an effect, memo or component.
+ * Reactive to the status of modals, but not to modals being created or disposed.
  *
  * ```ts
  * function isModalOpening(key: string): boolean;
@@ -31,5 +31,5 @@ import { $keysToStatus } from "./internals"
  *
  */
 export function isModalOpening(key: string): boolean {
-    return $keysToStatus().get(key)?.() === "opening"
+    return keysToStatus.get(key)?.() === "opening"
 }

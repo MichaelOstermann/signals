@@ -4,7 +4,7 @@ import { isModalOpening } from "./isModalOpening"
 /**
  * # isModalOpen
  *
- * Reactive: subscribes when read inside an effect, memo or component.
+ * Reactive to the status of modals, but not to modals being created or disposed.
  *
  * ```ts
  * function isModalOpen(key: string): boolean;

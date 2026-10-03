@@ -4,8 +4,6 @@ import { modalGroups } from "./modalGroups"
 /**
  * # isDialog
  *
- * Reactive: subscribes when read inside an effect, memo or component.
- *
  * ```ts
  * function isDialog(key: string): boolean;
  * ```

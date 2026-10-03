@@ -1,10 +1,10 @@
 import type { ModalStatus } from "./types"
-import { $keysToStatus } from "./internals"
+import { keysToStatus } from "./internals"
 
 /**
  * # getModalStatus
  *
- * Reactive: subscribes when read inside an effect, memo or component.
+ * Reactive to the status of modals, but not to modals being created or disposed.
  *
  * ```ts
  * function getModalStatus(key: string): ModalStatus;
@@ -32,5 +32,5 @@ import { $keysToStatus } from "./internals"
  *
  */
 export function getModalStatus(key: string): ModalStatus {
-    return $keysToStatus().get(key)?.() ?? "closed"
+    return keysToStatus.get(key)?.() ?? "closed"
 }

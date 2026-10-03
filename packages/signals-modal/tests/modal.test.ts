@@ -1,12 +1,17 @@
+import { effect } from "@monstermann/signals"
 import { describe, expect, it, vi } from "bun:test"
 import {
     closeModal,
     createModal,
     getModalsForGroup,
     getModalStatus,
+    getOpenModals,
+    isAnyModalOpen,
     isModalInGroup,
+    isModalOpen,
     onModalClosed,
     onModalClosing,
+    onModalCreated,
     onModalDisposed,
     onModalOpened,
     onModalOpening,
@@ -137,5 +142,80 @@ describe("withModalGroups", () => {
         expect(Array.from(getModalsForGroup("menu"))).toEqual(["group-b"])
         b.dispose()
         expect(Array.from(getModalsForGroup("menu"))).toEqual([])
+    })
+})
+
+describe("registry", () => {
+    it("should merge the groups of a modal", () => {
+        const modal = createModal("merged", () => {
+            withModalGroups(["a"])
+            return { $groups: withModalGroups(["b"]) }
+        })
+        expect(Array.from(modal.$groups())).toEqual(["a", "b"])
+        expect(isModalInGroup("merged", "a")).toBe(true)
+        modal.dispose()
+        expect(isModalInGroup("merged", "a")).toBe(false)
+        expect(getModalsForGroup("a").size).toBe(0)
+    })
+
+    it("should announce created modals", () => {
+        const created: string[] = []
+        const stop = onModalCreated(key => void created.push(key))
+        const modal = createModal("created", () => withModalStatus())
+        stop()
+
+        expect(created).toEqual(["created"])
+        expect(getModalStatus("created")).toBe("closed")
+        modal.dispose()
+    })
+
+    it("should not rerun effects when modals are created or disposed", () => {
+        const spy = vi.fn(() => {
+            getModalsForGroup("menu")
+            isAnyModalOpen()
+            getOpenModals()
+        })
+        const fx = effect(spy)
+
+        const modals = Array.from({ length: 10 }, (_, i) => createModal(`many-${i}`, () => {
+            withModalGroups(["menu"])
+            return withModalStatus()
+        }))
+        expect(getModalsForGroup("menu").size).toBe(10)
+        modals.forEach(modal => modal.dispose())
+
+        expect(spy).toHaveBeenCalledTimes(1)
+        expect(getModalsForGroup("menu").size).toBe(0)
+        fx()
+    })
+
+    it("should stay reactive to the status of a modal", () => {
+        const modal = createModal("reactive", () => withModalStatus())
+        const seen: boolean[] = []
+        const fx = effect(() => void seen.push(isModalOpen("reactive")))
+
+        openModal("reactive")
+        setModalStatus("reactive", "closed")
+
+        expect(seen).toEqual([false, true, false])
+        fx()
+        modal.dispose()
+    })
+
+    it("should keep a later modal with the same key when an earlier one is disposed", () => {
+        const first = createModal("same", () => ({ ...withModalStatus(), $groups: withModalGroups(["a"]) }))
+        const second = createModal("same", () => ({ ...withModalStatus("opened"), $groups: withModalGroups(["b"]) }))
+
+        first.dispose()
+
+        expect(getModalStatus("same")).toBe("opened")
+        expect(isModalInGroup("same", "b")).toBe(true)
+        expect(isModalInGroup("same", "a")).toBe(false)
+        expect(getModalsForGroup("a").size).toBe(0)
+        expect(Array.from(getModalsForGroup("b"))).toEqual(["same"])
+
+        setModalStatus("same", "closed")
+        second.dispose()
+        expect(getModalsForGroup("b").size).toBe(0)
     })
 })

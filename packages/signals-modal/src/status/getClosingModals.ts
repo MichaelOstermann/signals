@@ -1,9 +1,9 @@
-import { $keysToStatus } from "./internals"
+import { keysToStatus } from "./internals"
 
 /**
  * # getClosingModals
  *
- * Reactive: subscribes when read inside an effect, memo or component.
+ * Reactive to the status of modals, but not to modals being created or disposed.
  *
  * ```ts
  * function getClosingModals(): string[];
@@ -38,7 +38,7 @@ import { $keysToStatus } from "./internals"
  */
 export function getClosingModals(): string[] {
     const result: string[] = []
-    const map = $keysToStatus()
+    const map = keysToStatus
     for (const [key, $status] of map) {
         if ($status() === "closing") result.push(key)
     }

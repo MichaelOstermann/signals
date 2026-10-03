@@ -4,8 +4,6 @@ import { modalGroups } from "./modalGroups"
 /**
  * # isPopover
  *
- * Reactive: subscribes when read inside an effect, memo or component.
- *
  * ```ts
  * function isPopover(key: string): boolean;
  * ```

@@ -3,8 +3,6 @@ import { getGroupsForModal } from "./getGroupsForModal"
 /**
  * # isModalInGroup
  *
- * Reactive: subscribes when read inside an effect, memo or component.
- *
  * ```ts
  * function isModalInGroup(key: string, group: string): boolean;
  * ```

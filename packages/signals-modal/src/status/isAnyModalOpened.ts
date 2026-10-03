@@ -1,9 +1,9 @@
-import { getOpenedModals } from "./getOpenedModals"
+import { keysToStatus } from "./internals"
 
 /**
  * # isAnyModalOpened
  *
- * Reactive: subscribes when read inside an effect, memo or component.
+ * Reactive to the status of modals, but not to modals being created or disposed.
  *
  * ```ts
  * function isAnyModalOpened(): boolean;
@@ -33,5 +33,8 @@ import { getOpenedModals } from "./getOpenedModals"
  *
  */
 export function isAnyModalOpened(): boolean {
-    return getOpenedModals().length > 0
+    for (const $status of keysToStatus.values()) {
+        if ($status() === "opened") return true
+    }
+    return false
 }

@@ -1,11 +1,9 @@
-import { $keysToGroups } from "./internals"
+import { keysToGroups } from "./internals"
 
 const empty: ReadonlySet<string> = new Set()
 
 /**
  * # getGroupsForModal
- *
- * Reactive: subscribes when read inside an effect, memo or component.
  *
  * ```ts
  * function getGroupsForModal(key: string): ReadonlySet<string>;
@@ -32,5 +30,5 @@ const empty: ReadonlySet<string> = new Set()
  *
  */
 export function getGroupsForModal(key: string): ReadonlySet<string> {
-    return $keysToGroups().get(key) ?? empty
+    return keysToGroups.get(key) ?? empty
 }

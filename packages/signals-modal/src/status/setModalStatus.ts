@@ -1,5 +1,5 @@
 import type { ModalStatus } from "./types"
-import { $keysToStatus } from "./internals"
+import { keysToStatus } from "./internals"
 
 /**
  * # setModalStatus
@@ -30,5 +30,5 @@ import { $keysToStatus } from "./internals"
  *
  */
 export function setModalStatus(key: string, status: ModalStatus): void {
-    $keysToStatus().get(key)?.(status)
+    keysToStatus.get(key)?.(status)
 }

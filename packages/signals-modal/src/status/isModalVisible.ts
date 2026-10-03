@@ -3,7 +3,7 @@ import { isModalClosed } from "./isModalClosed"
 /**
  * # isModalVisible
  *
- * Reactive: subscribes when read inside an effect, memo or component.
+ * Reactive to the status of modals, but not to modals being created or disposed.
  *
  * ```ts
  * function isModalVisible(key: string): boolean;

@@ -1,17 +1,15 @@
-import { $groupsToKeys } from "./internals"
+import { groupsToKeys } from "./internals"
 
 const empty: ReadonlySet<string> = new Set()
 
 /**
  * # getModalsForGroup
  *
- * Reactive: subscribes when read inside an effect, memo or component.
- *
  * ```ts
  * function getModalsForGroup(group: string): ReadonlySet<string>;
  * ```
  *
- * Returns all keys the given `group` belongs to.
+ * Returns the keys of all modals in the given `group`. The set is kept up to date as modals are created and disposed, but reading it does not subscribe to that.
  *
  * ## Example
  *
@@ -32,5 +30,5 @@ const empty: ReadonlySet<string> = new Set()
  *
  */
 export function getModalsForGroup(group: string): ReadonlySet<string> {
-    return $groupsToKeys().get(group) ?? empty
+    return groupsToKeys.get(group) ?? empty
 }

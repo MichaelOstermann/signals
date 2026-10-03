@@ -3,7 +3,7 @@ import type { ModalStatus } from "./types"
 import { memo, signal, watch } from "@monstermann/signals"
 import { currentModal } from "../createModal"
 import { closeModal } from "./closeModal"
-import { $keysToStatus } from "./internals"
+import { keysToStatus, modalsToStatus } from "./internals"
 import { onModalClosed } from "./onModalClosed"
 import { onModalClosing } from "./onModalClosing"
 import { onModalOpened } from "./onModalOpened"
@@ -63,11 +63,12 @@ export function withModalStatus(status: ModalStatus = "closed"): {
     const modal = currentModal()
     const $status = signal<ModalStatus>(status)
 
-    $keysToStatus(keys => keys.set(modal.key, $status))
-    modal.onDispose(() => $keysToStatus((keys) => {
-        keys.delete(modal.key)
-        return keys
-    }))
+    keysToStatus.set(modal.key, $status)
+    modalsToStatus.set(modal, $status)
+    modal.onDispose(() => {
+        // A later modal with the same key has its own status.
+        if (keysToStatus.get(modal.key) === $status) keysToStatus.delete(modal.key)
+    })
 
     modal.onDispose(watch($status, (status) => {
         if (status === "closed") onModalClosed(modal.key)

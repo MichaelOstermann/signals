@@ -1,7 +1,6 @@
 import type { MaybeDispose } from "@monstermann/signals"
-import { context, disposer, emitter, isDisposed } from "@monstermann/signals"
-import { closeModal } from "./status/closeModal"
-import { isModalClosed } from "./status/isModalClosed"
+import { context, disposer, emitter, isDisposed, untrack } from "@monstermann/signals"
+import { modalsToStatus } from "./status/internals"
 import { onModalClosed } from "./status/onModalClosed"
 
 export interface ModalContext {
@@ -12,6 +11,33 @@ export interface ModalContext {
 }
 
 const modalCtx = context<ModalContext>()
+
+/**
+ * # onModalCreated
+ *
+ * ```ts
+ * const onModalCreated: Emitter<string>;
+ * ```
+ *
+ * An emitter that fires when a modal has been created. The emitted value is the modal key.
+ *
+ * Which modals exist is not reactive, this and `onModalDisposed` are how to keep track of them.
+ *
+ * ## Example
+ *
+ * ```ts
+ * import { createModal, onModalCreated } from "@monstermann/signals-modal";
+ *
+ * const stopListening = onModalCreated((key) => {
+ *     console.log(`Modal ${key} created`);
+ * });
+ *
+ * createModal("key", () => ({}));
+ *
+ * stopListening();
+ * ```
+ */
+export const onModalCreated = emitter<string>()
 
 export const onModalDisposed = emitter<string>()
 
@@ -63,7 +89,11 @@ export function createModal<T extends object>(
         dispose() {
             if (isDisposed(dispose)) return
 
-            if (isModalClosed(key)) {
+            // The status of this modal, not of whichever modal currently has this key.
+            const $status = modalsToStatus.get(nextCtx)
+            const status = $status ? untrack($status) : "closed"
+
+            if (status === "closed") {
                 stopWaiting?.()
                 dispose()
                 onModalDisposed(key)
@@ -74,16 +104,19 @@ export function createModal<T extends object>(
             stopWaiting ??= onModalClosed((k) => {
                 if (k === key) nextCtx.dispose()
             })
-            closeModal(key)
+            if (status !== "closing") $status!("closing")
         },
     }
     const prevCtx = modalCtx(nextCtx)
+    let modal: ModalContext & T
 
     try {
-        const result = setup()
-        return { ...nextCtx, ...result }
+        modal = { ...nextCtx, ...setup() }
     }
     finally {
         modalCtx(prevCtx)
     }
+
+    onModalCreated(key)
+    return modal
 }

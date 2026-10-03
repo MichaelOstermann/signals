@@ -4,8 +4,6 @@ import { modalGroups } from "./modalGroups"
 /**
  * # getTooltips
  *
- * Reactive: subscribes when read inside an effect, memo or component.
- *
  * ```ts
  * function getTooltips(): ReadonlySet<string>;
  * ```

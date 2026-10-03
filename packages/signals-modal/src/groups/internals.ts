@@ -1,16 +1,43 @@
-import { memo, signal } from "@monstermann/signals"
+// Plain maps instead of signals: modals are created and disposed all the time,
+// and nothing should have to rerun or recompute because of that.
+export const keysToGroups = new Map<string, Set<string>>()
+export const groupsToKeys = new Map<string, Set<string>>()
 
-export const $keysToGroups = signal<Map<string, Set<string>>>(new Map(), {
-    mutable: true,
-})
+// The groups of each modal itself, as another modal can exist with the same key.
+const modalsToGroups = new WeakMap<object, Set<string>>()
 
-export const $groupsToKeys = memo<ReadonlyMap<string, ReadonlySet<string>>>(() => {
-    const map = new Map<string, Set<string>>()
-    for (const [key, groups] of $keysToGroups()) {
-        for (const group of groups) {
-            if (!map.has(group)) map.set(group, new Set())
-            map.get(group)!.add(key)
-        }
+export function addGroups(modal: object, key: string, groups: Iterable<string>): { created: boolean, groups: Set<string> } {
+    let groupsOfModal = modalsToGroups.get(modal)
+    const created = !groupsOfModal
+
+    if (!groupsOfModal) {
+        // A later modal with the same key takes over.
+        const previous = keysToGroups.get(key)
+        if (previous) removeGroups(key, previous)
+        groupsOfModal = new Set()
+        modalsToGroups.set(modal, groupsOfModal)
+        keysToGroups.set(key, groupsOfModal)
     }
-    return map
-})
+
+    for (const group of groups) {
+        groupsOfModal.add(group)
+        let keys = groupsToKeys.get(group)
+        if (!keys) groupsToKeys.set(group, keys = new Set())
+        keys.add(key)
+    }
+
+    return { created, groups: groupsOfModal }
+}
+
+export function removeGroups(key: string, groupsOfModal: Set<string>): void {
+    // A later modal with the same key has its own groups.
+    if (keysToGroups.get(key) !== groupsOfModal) return
+    keysToGroups.delete(key)
+
+    for (const group of groupsOfModal) {
+        const keys = groupsToKeys.get(group)
+        if (!keys) continue
+        keys.delete(key)
+        if (!keys.size) groupsToKeys.delete(group)
+    }
+}
