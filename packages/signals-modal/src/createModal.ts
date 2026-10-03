@@ -55,19 +55,26 @@ export function createModal<T extends object>(
     setup: () => T,
 ): ModalContext & T {
     const dispose = disposer()
+    let stopWaiting: (() => void) | undefined
     const nextCtx: ModalContext = {
         key,
         onDispose: dispose,
         isDisposed: () => isDisposed(dispose),
         dispose() {
+            if (isDisposed(dispose)) return
+
             if (isModalClosed(key)) {
+                stopWaiting?.()
                 dispose()
                 onModalDisposed(key)
+                return
             }
-            else {
-                onModalClosed(k => k === key && this.dispose())
-                closeModal(key)
-            }
+
+            // Wait for the modal to be closed, only once and only for this modal.
+            stopWaiting ??= onModalClosed((k) => {
+                if (k === key) nextCtx.dispose()
+            })
+            closeModal(key)
         },
     }
     const prevCtx = modalCtx(nextCtx)
