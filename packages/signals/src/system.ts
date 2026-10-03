@@ -13,6 +13,16 @@ type ReactiveNode = {
     version: number
 }
 
+type BatchSnapshot = {
+    next: BatchSnapshot | undefined
+    source: RawSignal
+    value: unknown
+    version: number
+}
+
+// Takes the place of the previous value for writes that keep the value, which can not be reverted.
+const UNKNOWN = {}
+
 const RUNNING = 1 << 0
 const NOTIFIED = 1 << 1
 const OUTDATED = 1 << 2
@@ -24,6 +34,7 @@ let batchDepth = 0
 let batchedEffect: RawEffect | undefined
 let batchIteration = 0
 let version = 0
+let batchSnapshots: BatchSnapshot | undefined
 const sub: Dll<RawEffect | RawMemo | undefined> = Dll.create()
 
 function addDependency(signal: RawSignal): ReactiveNode | undefined {
@@ -77,6 +88,50 @@ function addDependency(signal: RawSignal): ReactiveNode | undefined {
         return node
     }
     return undefined
+}
+
+function recordBatchSnapshot(source: RawSignal, value: unknown): void {
+    // Only capture writes of the batch itself, not the ones effects do while it is flushed.
+    if (batchDepth === 0 || batchIteration !== 0) return
+    // The value of a mutable signal can be the same and still have changed.
+    if (source.mutable) return
+
+    if (source.snapshot !== undefined) {
+        if (source.value === value) source.snapshot.value = UNKNOWN
+        return
+    }
+
+    batchSnapshots = source.snapshot = {
+        next: batchSnapshots,
+        source,
+        value: source.value === value ? UNKNOWN : source.value,
+        version: source.version,
+    }
+}
+
+function reconcileBatchSnapshots(): void {
+    let snapshot = batchSnapshots
+    batchSnapshots = undefined
+
+    while (snapshot !== undefined) {
+        const source = snapshot.source
+        source.snapshot = undefined
+        // The value is back to what it was before the batch: Fast-forward the targets
+        // that have seen that value, so they do not consider the signal to have changed.
+        // Versions are never rolled back, something may have seen the ones in between.
+        if (source.value === snapshot.value) {
+            for (
+                let node = source.targets;
+                node !== undefined;
+                node = node.nextTarget
+            ) {
+                if (node.version === snapshot.version) {
+                    node.version = source.version
+                }
+            }
+        }
+        snapshot = snapshot.next
+    }
 }
 
 function cleanupSources(target: RawMemo | RawEffect) {
@@ -150,10 +205,12 @@ function prepareSources(target: RawMemo | RawEffect) {
 
 // @ts-expect-error ignore
 export declare class RawSignal<T = any> {
+    mutable: boolean
     node: ReactiveNode | undefined
     onRead?: () => void
     onUnwatch?: () => void
     onWatch?: () => Dispose | void
+    snapshot: BatchSnapshot | undefined
     targets: ReactiveNode | undefined
     value: T
     version: number
@@ -167,6 +224,7 @@ export declare class RawSignal<T = any> {
 }
 
 export interface RawSignalOptions {
+    mutable?: boolean
     onRead?: () => void
     onWatch?: () => Dispose | void
 }
@@ -176,6 +234,8 @@ export interface RawSignalOptions {
 export function RawSignal(this: RawSignal, value?: unknown, options?: RawSignalOptions) {
     this.node = undefined
     this.targets = undefined
+    this.snapshot = undefined
+    this.mutable = options?.mutable === true
     this.value = value
     this.version = 0
     this.onRead = options?.onRead
@@ -239,6 +299,7 @@ RawSignal.prototype.set = function<T>(this: RawSignal<T>, value: T): void {
         throw new Error("Cycle detected")
     }
 
+    recordBatchSnapshot(this, value)
     this.value = value
     this.version++
     version++
@@ -503,6 +564,7 @@ export function endBatch(): void {
 
     let error: unknown
     let hasError = false
+    reconcileBatchSnapshots()
 
     while (batchedEffect !== undefined) {
         let effect: RawEffect | undefined = batchedEffect
