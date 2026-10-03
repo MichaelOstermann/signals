@@ -1,7 +1,7 @@
-import type { Dispose, Disposer } from "./disposer"
+import type { Dispose } from "./disposer"
+import type { Cleanups } from "./internals/contexts"
 import type { Meta } from "./meta"
-import { disposer } from "./disposer"
-import { cleanupCtx } from "./internals/contexts"
+import { cleanupCtx, runCleanups } from "./internals/contexts"
 import { endBatch, pauseTracking, resumeTracking, startBatch } from "./system"
 
 export interface Action<T extends unknown[] = any[], U = any> {
@@ -107,12 +107,12 @@ export function action<T extends unknown[] = never, U = void>(
     handler: (...args: T) => U,
     meta?: Partial<Meta>,
 ): Action<T, U> {
-    let cleanups: Disposer | undefined
+    const cleanups: Cleanups = { current: undefined }
 
     const action: Action<T, U> = (...args: any) => {
         listener?.(action as Action, args)
-        cleanups?.()
-        const prevCleanups = cleanupCtx(cleanups = disposer())
+        runCleanups(cleanups)
+        const prevCleanups = cleanupCtx(cleanups)
         startBatch()
         pauseTracking()
         try {

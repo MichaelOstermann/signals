@@ -1,7 +1,8 @@
 import type { Disposer, MaybeDispose } from "./disposer"
+import type { Cleanups } from "./internals/contexts"
 import type { Meta } from "./meta"
 import { disposer, isDisposed } from "./disposer"
-import { cleanupCtx, effectCtx } from "./internals/contexts"
+import { cleanupCtx, effectCtx, runCleanups } from "./internals/contexts"
 import { hmr } from "./internals/hmr"
 import { RawEffect } from "./system"
 
@@ -107,19 +108,18 @@ export function effect(
     computation: () => MaybeDispose,
     meta?: Meta,
 ): Effect {
-    let cleanups: Disposer | undefined
+    const cleanups: Cleanups = { current: undefined }
     const effect: Effect = disposer()
 
     const rawEffect = new RawEffect(() => {
         const prevEffect = effectCtx(effect)
-        const prevCleanups = cleanupCtx()
+        const prevCleanups = cleanupCtx(cleanups)
         try {
-            cleanups?.()
-            const nextCleanups = cleanups = disposer()
-            cleanupCtx(nextCleanups)
+            runCleanups(cleanups)
             if (isDisposed(effect)) return
-            nextCleanups(computation())
-            effect(nextCleanups)
+            const cleanup = computation()
+            if (cleanup) (cleanups.current ??= disposer())(cleanup)
+            if (isDisposed(effect)) runCleanups(cleanups)
         }
         finally {
             cleanupCtx(prevCleanups)
@@ -128,7 +128,8 @@ export function effect(
     })
 
     rawEffect.run()
-    effect(rawEffect.dispose.bind(rawEffect))
+    effect(() => rawEffect.dispose())
+    effect(() => runCleanups(cleanups))
     hmr(effect, meta)
 
     return effect

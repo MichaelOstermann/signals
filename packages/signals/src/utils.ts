@@ -1,6 +1,7 @@
 import type { MaybeDispose } from "./disposer"
 import type { Memo } from "./memo"
 import type { ReadonlySignal, Signal } from "./signal"
+import { disposer } from "./disposer"
 import { cleanupCtx } from "./internals/contexts"
 import { read } from "./internals/read"
 import { pauseTracking, resumeTracking } from "./system"
@@ -35,7 +36,8 @@ export type MaybeReactive<T> =
  * ```
  */
 export function onCleanup<T extends MaybeDispose>(onDispose: T): T {
-    cleanupCtx()?.(onDispose)
+    const cleanups = cleanupCtx()
+    if (cleanups) (cleanups.current ??= disposer())(onDispose)
     return onDispose
 }
 

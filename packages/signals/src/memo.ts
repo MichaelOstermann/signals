@@ -68,7 +68,7 @@ export function memo<T>(
             }
         : computation, options)
 
-    const memo = m.get.bind(m) as Memo<T>
+    const memo = (() => m.get()) as Memo<T>
     memo.kind = MEMO
 
     return memo

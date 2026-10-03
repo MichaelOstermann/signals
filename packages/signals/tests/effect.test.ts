@@ -138,3 +138,32 @@ describe("deferEffect", () => {
         expect(spy).toHaveBeenCalledTimes(3)
     })
 })
+
+describe("cleanups", () => {
+    it("should run cleanups of a run that threw when the effect is disposed", () => {
+        const a = signal(0)
+        const cleanup = vi.fn()
+        const fx = effect(() => {
+            onCleanup(cleanup)
+            if (a() > 0) throw new Error("fail")
+        })
+
+        expect(() => a(1)).toThrow("fail")
+        expect(cleanup).toHaveBeenCalledTimes(1)
+
+        fx()
+        expect(cleanup).toHaveBeenCalledTimes(2)
+    })
+
+    it("should run cleanups in reverse order", () => {
+        const order: number[] = []
+        const fx = effect(() => {
+            onCleanup(() => order.push(1))
+            onCleanup(() => order.push(2))
+            return () => order.push(3)
+        })
+
+        fx()
+        expect(order).toEqual([3, 2, 1])
+    })
+})

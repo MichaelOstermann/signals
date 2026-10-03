@@ -1,9 +1,10 @@
 import type { Disposer, MaybeDispose } from "./disposer"
+import type { Cleanups } from "./internals/contexts"
 import type { Memo } from "./memo"
 import type { Meta } from "./meta"
 import type { ReadonlySignal } from "./signal"
 import { disposer, isDisposed } from "./disposer"
-import { cleanupCtx, watcherCtx } from "./internals/contexts"
+import { cleanupCtx, runCleanups, watcherCtx } from "./internals/contexts"
 import { hmr } from "./internals/hmr"
 import { memo } from "./memo"
 import { pauseTracking, RawEffect, resumeTracking } from "./system"
@@ -149,7 +150,7 @@ export function watch<T>(
 
     let init = false
     let current: T
-    let cleanups: Disposer | undefined
+    const cleanups: Cleanups = { current: undefined }
 
     const deps = "kind" in dependencies
         ? dependencies
@@ -164,12 +165,12 @@ export function watch<T>(
             if (!init || isDisposed(watcher)) return void (init = true)
             pauseTracking()
             try {
-                cleanups?.()
-                const nextCleanups = cleanups = disposer()
-                cleanupCtx(nextCleanups)
+                runCleanups(cleanups)
+                cleanupCtx(cleanups)
                 if (isDisposed(watcher)) return
-                nextCleanups(computation(current, prev))
-                watcher(nextCleanups)
+                const cleanup = computation(current, prev)
+                if (cleanup) (cleanups.current ??= disposer())(cleanup)
+                if (isDisposed(watcher)) runCleanups(cleanups)
             }
             finally {
                 resumeTracking()
@@ -182,7 +183,8 @@ export function watch<T>(
     })
 
     rawEffect.run()
-    watcher(rawEffect.dispose.bind(rawEffect))
+    watcher(() => rawEffect.dispose())
+    watcher(() => runCleanups(cleanups))
     hmr(watcher, meta)
 
     return watcher
