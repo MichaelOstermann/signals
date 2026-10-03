@@ -33,6 +33,9 @@ let batchedEffect: RawEffect | undefined
 let batchIteration = 0
 let version = 0
 let batchSnapshots: BatchSnapshot | undefined
+// Changes whenever a target stops being notified, so a signal can tell
+// whether all of its targets still are from its previous write.
+let notifyEpoch = 1
 
 // What is currently collecting dependencies, and what did so before it.
 let evalContext: RawEffect | RawMemo | undefined
@@ -217,6 +220,7 @@ function prepareSources(target: RawMemo | RawEffect) {
 export declare class RawSignal<T = any> {
     mutable: boolean
     node: ReactiveNode | undefined
+    notified: number
     onRead?: () => void
     onUnwatch?: () => void
     onWatch?: () => Dispose | void
@@ -245,6 +249,7 @@ export function RawSignal(this: RawSignal, value?: unknown, options?: RawSignalO
     this.node = undefined
     this.targets = undefined
     this.snapshot = undefined
+    this.notified = 0
     this.mutable = options?.mutable === true
     this.value = value
     this.version = 0
@@ -262,6 +267,8 @@ RawSignal.prototype.subscribe = function (node: ReactiveNode) {
     if (targets !== node && node.prevTarget === undefined) {
         node.nextTarget = targets
         this.targets = node
+        // The new target has not been notified.
+        this.notified = 0
 
         if (targets !== undefined) {
             targets.prevTarget = node
@@ -314,6 +321,10 @@ RawSignal.prototype.set = function<T>(this: RawSignal<T>, value: T): void {
     this.version++
     version++
 
+    // Writing repeatedly inside of a batch: Everything is still notified from the previous write.
+    if (this.notified === notifyEpoch) return
+    this.notified = notifyEpoch
+
     startBatch()
     try {
         for (
@@ -357,7 +368,10 @@ export function RawMemo(this: RawMemo, fn: () => unknown, options?: RawMemoOptio
 RawMemo.prototype = new RawSignal() as RawMemo
 
 RawMemo.prototype.refresh = function () {
-    this.flags &= ~NOTIFIED
+    if (this.flags & NOTIFIED) {
+        this.flags &= ~NOTIFIED
+        notifyEpoch++
+    }
 
     if (this.flags & RUNNING) {
         return false
@@ -657,6 +671,7 @@ export function endBatch(): void {
             const next: RawEffect | undefined = effect.nextBatchedEffect
             effect.nextBatchedEffect = undefined
             effect.flags &= ~NOTIFIED
+            notifyEpoch++
 
             if (!(effect.flags & DISPOSED) && needsToRecompute(effect)) {
                 try {
