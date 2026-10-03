@@ -22,6 +22,20 @@
         "@monstermann/fn-transform": "^0.11.0",
       },
     },
+    "packages/signals-modal": {
+      "name": "@monstermann/signals-modal",
+      "version": "0.8.0",
+      "dependencies": {
+        "@monstermann/fn": "^0.11.0",
+      },
+      "devDependencies": {
+        "@monstermann/fn-transform": "^0.11.0",
+        "@monstermann/signals": "workspace:*",
+      },
+      "peerDependencies": {
+        "@monstermann/signals": "workspace:^",
+      },
+    },
     "packages/signals-react": {
       "name": "@monstermann/signals-react",
       "version": "0.8.0",
@@ -188,6 +202,8 @@
     "@monstermann/meta": ["@monstermann/meta@0.4.0", "", { "dependencies": { "magic-string": "^1.4.2", "oxc-parser": "^0.152.0", "oxc-walker": "^1.1.1" } }, "sha512-EA/jYS9FDw4sntRGlHGD2cd4JuT87BIKMUGpSYTQjsERbDeM0GVlwMFmME8DY2kjZA0ecVgiIC2rLG9Qz387yQ=="],
 
     "@monstermann/signals": ["@monstermann/signals@workspace:packages/signals"],
+
+    "@monstermann/signals-modal": ["@monstermann/signals-modal@workspace:packages/signals-modal"],
 
     "@monstermann/signals-react": ["@monstermann/signals-react@workspace:packages/signals-react"],
 

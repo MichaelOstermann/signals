@@ -1,0 +1,43 @@
+{
+    "name": "@monstermann/signals-modal",
+    "type": "module",
+    "version": "0.8.0",
+    "description": "Composable modal management.",
+    "author": "Michael Ostermann <michaelostermann@me.com>",
+    "license": "MIT",
+    "homepage": "https://github.com/MichaelOstermann/signals",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/MichaelOstermann/signals.git"
+    },
+    "bugs": {
+        "url": "https://github.com/MichaelOstermann/signals/issues"
+    },
+    "keywords": [],
+    "sideEffects": false,
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.mts",
+            "import": "./dist/index.mjs"
+        }
+    },
+    "main": "./dist/index.mjs",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.mts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "bundle": "tsdown"
+    },
+    "peerDependencies": {
+        "@monstermann/signals": "workspace:^"
+    },
+    "dependencies": {
+        "@monstermann/fn": "^0.11.0"
+    },
+    "devDependencies": {
+        "@monstermann/fn-transform": "^0.11.0",
+        "@monstermann/signals": "workspace:*"
+    }
+}
