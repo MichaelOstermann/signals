@@ -1,0 +1,113 @@
+import { describe, expect, it, vi } from "bun:test"
+import { currentWatcher, disposeWatcher, isDisposed, memo, onCleanup, signal, watch } from "../src"
+
+describe("watch", () => {
+    it("should call the computation with the next and previous value, but not initially", () => {
+        const a = signal(1)
+        const spy = vi.fn()
+        watch(a, spy)
+        expect(spy).toHaveBeenCalledTimes(0)
+
+        a(2)
+        expect(spy).toHaveBeenCalledWith(2, 1)
+
+        a(3)
+        expect(spy).toHaveBeenCalledWith(3, 2)
+    })
+
+    it("should accept memos and functions", () => {
+        const a = signal(1)
+        const fromMemo = vi.fn()
+        const fromFunction = vi.fn()
+        watch(memo(() => a() * 2), fromMemo)
+        watch(() => a() * 3, fromFunction)
+
+        a(2)
+        expect(fromMemo).toHaveBeenCalledWith(4, 2)
+        expect(fromFunction).toHaveBeenCalledWith(6, 3)
+    })
+
+    it("should only run when the dependencies changed their value", () => {
+        const a = signal(1)
+        const spy = vi.fn()
+        watch(() => a() > 1, spy)
+
+        a(2)
+        a(3)
+        expect(spy).toHaveBeenCalledTimes(1)
+    })
+
+    it("should use equals", () => {
+        const a = signal({ id: 1 })
+        const spy = vi.fn()
+        watch(() => a(), spy, { equals: (before, after) => before.id === after.id })
+
+        a({ id: 1 })
+        expect(spy).toHaveBeenCalledTimes(0)
+        a({ id: 2 })
+        expect(spy).toHaveBeenCalledTimes(1)
+    })
+
+    it("should not track what the computation reads", () => {
+        const a = signal(1)
+        const b = signal(1)
+        const spy = vi.fn(() => void b())
+        watch(a, spy)
+
+        a(2)
+        b(2)
+        expect(spy).toHaveBeenCalledTimes(1)
+    })
+
+    it("should run cleanups before the next run and when disposed", () => {
+        const a = signal(1)
+        const returned = vi.fn()
+        const registered = vi.fn()
+        const watcher = watch(a, () => {
+            onCleanup(registered)
+            return returned
+        })
+
+        a(2)
+        a(3)
+        expect(returned).toHaveBeenCalledTimes(1)
+        expect(registered).toHaveBeenCalledTimes(1)
+
+        watcher()
+        expect(returned).toHaveBeenCalledTimes(2)
+        expect(registered).toHaveBeenCalledTimes(2)
+
+        a(4)
+        expect(returned).toHaveBeenCalledTimes(2)
+    })
+
+    it("should be able to dispose itself", () => {
+        const a = signal(1)
+        const current: unknown[] = []
+        const spy = vi.fn(() => {
+            current.push(currentWatcher())
+            disposeWatcher()
+        })
+        const watcher = watch(a, spy)
+
+        a(2)
+        a(3)
+        expect(current).toEqual([watcher])
+        expect(isDisposed(watcher)).toBe(true)
+        expect(spy).toHaveBeenCalledTimes(1)
+        expect(currentWatcher()).toBe(undefined)
+    })
+
+    it("should be disposed when its module is replaced", () => {
+        const hmr = new Set<() => void>()
+        const a = signal(1)
+        const spy = vi.fn()
+        watch(a, spy, undefined, { hmr, line: 1, name: "", path: "source.ts" })
+
+        for (const cb of hmr) cb()
+        a(2)
+
+        expect(hmr.size).toBe(0)
+        expect(spy).toHaveBeenCalledTimes(0)
+    })
+})

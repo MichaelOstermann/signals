@@ -1,8 +1,6 @@
-import type { DllLink } from "@monstermann/dll"
+import type { DllLink } from "@monstermann/fn"
 import type { Dispose } from "./disposer"
-import { Dll } from "@monstermann/dll"
-import { emit } from "./internals/hooks"
-import { untrack } from "./tracking"
+import { Dll } from "@monstermann/fn"
 
 type ReactiveNode = {
     nextSource: ReactiveNode | undefined
@@ -484,16 +482,12 @@ RawEffect.prototype.dispose = function (this: RawEffect): void {
     this.sources = undefined
 }
 
-const batchStart = { name: "BATCH_START" } as const
-const batchEnd = { name: "BATCH_END" } as const
-
 export function isBatching(): boolean {
     return batchDepth > 0
 }
 
 export function startBatch(): void {
     batchDepth++
-    if (batchDepth === 1) emit(batchStart)
 }
 
 export function endBatch(): void {
@@ -533,15 +527,17 @@ export function endBatch(): void {
     batchIteration = 0
     batchDepth--
 
-    emit(batchEnd)
-
     if (hasError) {
         throw error
     }
 }
 
-export function isTracking(): boolean {
-    return sub.tail !== undefined
+export function untrack<T>(fn: () => T): T {
+    if (sub.tail?.value === undefined) return fn()
+    pauseTracking()
+
+    try { return fn() }
+    finally { resumeTracking() }
 }
 
 export function pauseTracking(): void {

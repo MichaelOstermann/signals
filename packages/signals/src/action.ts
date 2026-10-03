@@ -1,48 +1,59 @@
-import type { Disposer } from "./disposer"
-import type { Meta, MetaOptions, UnpluginMeta } from "./meta"
-import { emit } from "./internals/hooks"
-import { isKind } from "./internals/isKind"
-import { createMeta } from "./internals/meta"
-import { register, registry, toList } from "./internals/registry"
-import { defer, deferBatch, deferCleanups, deferUntrack, run } from "./internals/runner"
-import { ACTION } from "./symbols"
+import type { Dispose, Disposer } from "./disposer"
+import type { Meta } from "./meta"
+import { disposer } from "./disposer"
+import { cleanupCtx } from "./internals/contexts"
+import { endBatch, pauseTracking, resumeTracking, startBatch } from "./system"
 
 export interface Action<T extends unknown[] = any[], U = any> {
     (...args: T): U
-    kind: ACTION
-    meta: Meta
+    meta: ActionMeta
 }
 
-export interface ActionOptions extends MetaOptions {}
+export interface ActionMeta {
+    readonly line: number
+    readonly name: string
+    readonly path: string
+}
 
-const actions = registry<Action>()
-export const isAction = isKind<Action>(ACTION)
-export const getActions = toList(actions)
+export interface ActionListener {
+    (action: Action, args: unknown[]): void
+}
+
+const anonymous: ActionMeta = { line: 0, name: "", path: "" }
+let listener: ActionListener | undefined
+
+export function onAction(onAction: ActionListener): Dispose {
+    listener = onAction
+    return () => {
+        if (listener === onAction) listener = undefined
+    }
+}
 
 export function action<T extends unknown[] = never, U = void>(
     handler: (...args: T) => U,
-    options?: ActionOptions,
-    _meta?: UnpluginMeta,
+    meta?: Partial<Meta>,
 ): Action<T, U> {
     let cleanups: Disposer | undefined
-    const meta = createMeta("Action", options, _meta)
 
-    const action: Action<T, U> = (...input: any) => run(() => {
-        let output: U
-        deferBatch()
-        deferUntrack()
-        if (!meta.silent) {
-            emit({ action: action as Action, input, name: "ACTION_START" })
-            defer(() => emit({ action: action as Action, name: "ACTION_END", output }))
+    const action: Action<T, U> = (...args: any) => {
+        listener?.(action as Action, args)
+        cleanups?.()
+        const prevCleanups = cleanupCtx(cleanups = disposer())
+        startBatch()
+        pauseTracking()
+        try {
+            return handler(...args as T)
         }
-        cleanups = deferCleanups(cleanups)
-        output = handler(...input)
-        return output
-    })
+        finally {
+            cleanupCtx(prevCleanups)
+            resumeTracking()
+            endBatch()
+        }
+    }
 
-    action.kind = ACTION
     action.meta = meta
-    register(actions, action)
+        ? { line: meta.line ?? 0, name: meta.name ?? "", path: meta.path ?? "" }
+        : anonymous
 
     return action
 }

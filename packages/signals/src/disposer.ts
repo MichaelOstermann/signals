@@ -1,4 +1,4 @@
-import { Dsp } from "@monstermann/dsp"
+import { Dsp } from "@monstermann/fn"
 import { DISPOSER } from "./symbols"
 import { endBatch, pauseTracking, resumeTracking, startBatch } from "./system"
 
@@ -30,10 +30,6 @@ export function disposer(...cleanups: MaybeDispose[]): Disposer {
 export function mixinDisposer<T extends object>(target: T): T & DisposerMixin {
     (target as T & DisposerMixin)[DISPOSER] = Dsp.create()
     return target as T & DisposerMixin
-}
-
-export function isDisposer(target: unknown): target is DisposerMixin {
-    return target != null && typeof target === "object" && DISPOSER in target
 }
 
 export function isDisposed(target: DisposerMixin): boolean {

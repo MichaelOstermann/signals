@@ -1,72 +1,68 @@
 import type { Disposer, MaybeDispose } from "./disposer"
 import type { Memo } from "./memo"
-import type { Meta, MetaOptions, UnpluginMeta } from "./meta"
+import type { Meta } from "./meta"
 import type { ReadonlySignal } from "./signal"
 import { disposer, isDisposed } from "./disposer"
 import { cleanupCtx, watcherCtx } from "./internals/contexts"
 import { hmr } from "./internals/hmr"
-import { emit } from "./internals/hooks"
-import { isKind } from "./internals/isKind"
-import { createMeta } from "./internals/meta"
-import { defer, deferBatch, deferCleanups, deferContext, deferUntrack, run } from "./internals/runner"
 import { memo } from "./memo"
-import { WATCHER } from "./symbols"
-import { RawEffect } from "./system"
+import { pauseTracking, RawEffect, resumeTracking } from "./system"
 
-export interface Watcher extends Disposer {
-    kind: WATCHER
-    meta: Meta
-}
+export interface Watcher extends Disposer {}
 
-export interface WatcherOptions<T> extends MetaOptions {
+export interface WatcherOptions<T> {
     equals?: (before: T, after: T) => boolean
 }
 
-export const isWatcher = isKind<Watcher>(WATCHER)
-export const hasWatcher = () => watcherCtx() !== undefined
-export const currentWatcher = () => watcherCtx()
-export const disposeWatcher = () => watcherCtx()?.()
+export const hasWatcher = (): boolean => watcherCtx() !== undefined
+export const currentWatcher = (): Watcher | undefined => watcherCtx()
+export const disposeWatcher = (): void => watcherCtx()?.()
 
 export function watch<T>(
     dependencies: ReadonlySignal<T> | Memo<T> | (() => T),
     computation: (next: NoInfer<T>, prev: NoInfer<T>) => MaybeDispose,
     options?: WatcherOptions<NoInfer<T>>,
-    _meta?: UnpluginMeta,
+    meta?: Meta,
 ): Watcher {
-    const watcher = disposer() as Watcher
-    const meta = createMeta("Watcher", options, _meta)
-    watcher.kind = WATCHER
-    watcher.meta = meta
+    const watcher: Watcher = disposer()
 
     let init = false
     let current: T
     let cleanups: Disposer | undefined
 
-    const deps = "meta" in dependencies
+    const deps = "kind" in dependencies
         ? dependencies
-        : memo(dependencies, { equals: options?.equals, internal: true })
+        : memo(dependencies, options)
 
-    const rawEffect = new RawEffect(() => run(() => {
+    const rawEffect = new RawEffect(() => {
         const prev = current
-        if (!meta.silent) {
-            emit({ name: "WATCHER_START", value: prev, watcher })
-            defer(() => emit({ name: "WATCHER_END", value: current, watcher }))
+        const prevWatcher = watcherCtx(watcher)
+        const prevCleanups = cleanupCtx(undefined)
+        try {
+            current = deps()
+            if (!init || isDisposed(watcher)) return void (init = true)
+            pauseTracking()
+            try {
+                cleanups?.()
+                const nextCleanups = cleanups = disposer()
+                cleanupCtx(nextCleanups)
+                if (isDisposed(watcher)) return
+                nextCleanups(computation(current, prev))
+                watcher(nextCleanups)
+            }
+            finally {
+                resumeTracking()
+            }
         }
-        deferContext(watcherCtx, watcher)
-        deferContext(cleanupCtx, undefined)
-        current = deps()
-        if (!init || isDisposed(watcher)) return void (init = true)
-        deferBatch()
-        deferUntrack()
-        cleanups = deferCleanups(cleanups)
-        if (isDisposed(watcher)) return
-        cleanups(computation(current, prev))
-        watcher(cleanups)
-    }))
+        finally {
+            cleanupCtx(prevCleanups)
+            watcherCtx(prevWatcher)
+        }
+    })
 
     rawEffect.run()
     watcher(rawEffect.dispose.bind(rawEffect))
-    hmr(watcher)
+    hmr(watcher, meta)
 
     return watcher
 }

@@ -1,5 +1,5 @@
-import { describe, expect, it, vi } from "vitest"
-import { batch, disposeEffect, effect, memo, peek, signal, untrack } from ".."
+import { describe, expect, it, vi } from "bun:test"
+import { batch, disposeEffect, effect, memo, peek, signal, untrack } from "../src"
 
 describe("signal", () => {
     it("should return value", () => {
@@ -1340,9 +1340,9 @@ describe("memo()", () => {
             expect(gSpy).toHaveBeenCalledTimes(1)
 
             // top to bottom
-            expect(eSpy).toHaveBeenCalledBefore(fSpy)
+            expect(eSpy.mock.invocationCallOrder[0]).toBeLessThan(fSpy.mock.invocationCallOrder[0]!)
             // left to right
-            expect(fSpy).toHaveBeenCalledBefore(gSpy)
+            expect(fSpy.mock.invocationCallOrder[0]).toBeLessThan(gSpy.mock.invocationCallOrder[0]!)
         })
 
         it("should only subscribe to signals listened to", () => {
@@ -1545,7 +1545,7 @@ describe("batch/transaction", () => {
                 // eslint-disable-next-line no-throw-literal
                 throw undefined
             })
-            expect.fail()
+            expect.unreachable()
         }
         catch (err) {
             expect(err).toBeUndefined()
@@ -1651,7 +1651,7 @@ describe("batch/transaction", () => {
         const c = signal("c")
         const d = memo(() => `${a()} ${b()} ${c()}`)
 
-        let result
+        let result = ""
         effect(() => {
             result = d()
         })
