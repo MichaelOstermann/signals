@@ -1,8 +1,8 @@
 {
-    "name": "@monstermann/signals-transform",
+    "name": "@monstermann/signals-react",
     "type": "module",
     "version": "0.8.0",
-    "description": "Names the actions of @monstermann/signals and disposes its effects during HMR.",
+    "description": "React integration for @monstermann/signals.",
     "author": "Michael Ostermann <michaelostermann@me.com>",
     "license": "MIT",
     "homepage": "https://github.com/MichaelOstermann/signals",
@@ -30,7 +30,13 @@
     "scripts": {
         "bundle": "tsdown"
     },
-    "dependencies": {
-        "@monstermann/meta": "^0.4.0"
+    "peerDependencies": {
+        "@monstermann/signals": "workspace:^",
+        "react": "^19.0.0"
+    },
+    "devDependencies": {
+        "@monstermann/signals": "workspace:*",
+        "@types/react": "^19.2.4",
+        "react": "^19.0.0"
     }
 }
