@@ -2,7 +2,7 @@
     "name": "@monstermann/signals-transform",
     "type": "module",
     "version": "0.8.0",
-    "description": "Names the actions of @monstermann/signals and disposes its effects during HMR.",
+    "description": "Names the actions of @monstermann/signals, disposes its effects during HMR and writes useSignal for React.",
     "author": "Michael Ostermann <michaelostermann@me.com>",
     "license": "MIT",
     "homepage": "https://github.com/MichaelOstermann/signals",
@@ -31,6 +31,10 @@
         "bundle": "tsdown"
     },
     "dependencies": {
-        "@monstermann/meta": "^0.4.0"
+        "@jridgewell/remapping": "^2.3.5",
+        "@monstermann/meta": "^0.4.0",
+        "magic-string": "^1.4.2",
+        "oxc-parser": "^0.152.0",
+        "oxc-walker": "^1.1.1"
     }
 }

@@ -49,20 +49,15 @@
         "react": "^19.0.0",
       },
     },
-    "packages/signals-react-transform": {
-      "name": "@monstermann/signals-react-transform",
-      "version": "0.8.0",
-      "dependencies": {
-        "magic-string": "^1.4.2",
-        "oxc-parser": "^0.152.0",
-        "oxc-walker": "^1.1.1",
-      },
-    },
     "packages/signals-transform": {
       "name": "@monstermann/signals-transform",
       "version": "0.8.0",
       "dependencies": {
+        "@jridgewell/remapping": "^2.3.5",
         "@monstermann/meta": "^0.4.0",
+        "magic-string": "^1.4.2",
+        "oxc-parser": "^0.152.0",
+        "oxc-walker": "^1.1.1",
       },
     },
   },
@@ -206,8 +201,6 @@
     "@monstermann/signals-modal": ["@monstermann/signals-modal@workspace:packages/signals-modal"],
 
     "@monstermann/signals-react": ["@monstermann/signals-react@workspace:packages/signals-react"],
-
-    "@monstermann/signals-react-transform": ["@monstermann/signals-react-transform@workspace:packages/signals-react-transform"],
 
     "@monstermann/signals-transform": ["@monstermann/signals-transform@workspace:packages/signals-transform"],
 

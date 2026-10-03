@@ -1,14 +1,14 @@
 import { describe, expect, test } from "bun:test"
-import { signalsReact, transform } from "../src"
+import { signals, transform } from "../src"
 
 function expectSnapshot(code: string): void {
     const lines = code.trimEnd().split("\n").filter((line, i) => i > 0 || line.trim())
     const indent = Math.min(...lines.filter(line => line.trim()).map(line => line.search(/\S/)))
     const source = lines.map(line => line.slice(indent)).join("\n")
-    expect(transform(source, "source.jsx")?.code ?? source).toMatchSnapshot()
+    expect(transform(source, "source.jsx", { react: true })?.code ?? source).toMatchSnapshot()
 }
 
-describe("transform", () => {
+describe("react", () => {
     test("Should transform const Component = function() {}", () => {
         expectSnapshot(`
             export const Component = function() {
@@ -236,25 +236,42 @@ describe("transform", () => {
     })
 
     test("Should skip files without a $", () => {
-        expect(transform("export const Component = () => <div />", "source.jsx")).toBe(undefined)
+        expect(transform("export const Component = () => <div />", "source.jsx", { react: true })).toBe(undefined)
     })
 
     test("Should return nothing when there is nothing to wrap", () => {
-        expect(transform("export const $count = signal(0)", "source.ts")).toBe(undefined)
+        expect(transform("export const $count = signal(0)", "source.ts", { react: true })).toBe(undefined)
+    })
+
+    test("Should do nothing without the option", () => {
+        expect(transform("export const Component = () => <div>{$count()}</div>", "source.jsx")).toBe(undefined)
     })
 
     test("Should return a sourcemap", () => {
-        const result = transform("export const Component = () => <div>{$count()}</div>", "source.jsx")
+        const result = transform("export const Component = () => <div>{$count()}</div>", "source.jsx", { react: true })
         expect(result?.map.sources).toEqual(["source.jsx"])
+    })
+
+    test("Should work together with naming actions", () => {
+        const code = [
+            `import { action, signal } from "@monstermann/signals"`,
+            `const $count = signal(0)`,
+            `const increment = action(() => $count(n => n + 1))`,
+            `export const Counter = () => <button onClick={increment}>{$count()}</button>`,
+        ].join("\n")
+        const result = transform(code, "source.jsx", { react: true })
+        expect(result?.code).toContain(`name: "increment"`)
+        expect(result?.code).toContain(`import { useSignal } from "@monstermann/signals-react";`)
+        expect(result?.code).toContain("{useSignal($count)}")
+        expect(result?.map.sources).toEqual(["source.jsx"])
+        expect(result?.map.mappings.length).toBeGreaterThan(0)
     })
 })
 
-describe("signalsReact", () => {
-    test("Should skip files that are excluded or not included", () => {
+describe("signals", () => {
+    test("Should pass the react option on", () => {
         const code = "export const Component = () => <div>{$count()}</div>"
-        const plugin = signalsReact({ exclude: /skipped/ })
-        expect(plugin.transform.handler(code, "/a/b.tsx")?.code).toContain("useSignal($count)")
-        expect(plugin.transform.handler(code, "/a/skipped.tsx")).toBe(undefined)
-        expect(plugin.transform.handler(code, "/a/b.css")).toBe(undefined)
+        expect(signals({ react: true }).transform.handler(code, "/a/b.tsx")?.code).toContain("useSignal($count)")
+        expect(signals().transform.handler(code, "/a/b.tsx")).toBe(undefined)
     })
 })

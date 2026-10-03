@@ -1,6 +1,6 @@
 // Bun Snapshot v1, https://bun.sh/docs/test/snapshots
 
-exports[`transform Should transform const Component = function() {} 1`] = `
+exports[`react Should transform const Component = function() {} 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export const Component = function() {
     const foo = useSignal($foo)
@@ -8,7 +8,7 @@ export const Component = function() {
 }"
 `;
 
-exports[`transform Should transform function Component() {} 1`] = `
+exports[`react Should transform function Component() {} 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export function Component() {
     const foo = useSignal($foo)
@@ -16,7 +16,7 @@ export function Component() {
 }"
 `;
 
-exports[`transform Should transform const Component = () => {} 1`] = `
+exports[`react Should transform const Component = () => {} 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export const Component = () => {
     const foo = useSignal($foo)
@@ -24,7 +24,7 @@ export const Component = () => {
 }"
 `;
 
-exports[`transform Should transform functions containing jsx 1`] = `
+exports[`react Should transform functions containing jsx 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export const component = () => {
     const foo = useSignal($foo)
@@ -32,7 +32,7 @@ export const component = () => {
 }"
 `;
 
-exports[`transform Should transform const useHook = function() {} 1`] = `
+exports[`react Should transform const useHook = function() {} 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export const useHook = function() {
     const foo = useSignal($foo)
@@ -40,7 +40,7 @@ export const useHook = function() {
 }"
 `;
 
-exports[`transform Should transform function useHook() {} 1`] = `
+exports[`react Should transform function useHook() {} 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export function useHook() {
     const foo = useSignal($foo)
@@ -48,7 +48,7 @@ export function useHook() {
 }"
 `;
 
-exports[`transform Should transform const useHook = () => {} 1`] = `
+exports[`react Should transform const useHook = () => {} 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export const useHook = () => {
     const foo = useSignal($foo)
@@ -56,14 +56,14 @@ export const useHook = () => {
 }"
 `;
 
-exports[`transform Should ignore everything else 1`] = `
+exports[`react Should ignore everything else 1`] = `
 "export const component = () => {
     const foo = $foo()
     return foo
 }"
 `;
 
-exports[`transform Should transform nested call expressions 1`] = `
+exports[`react Should transform nested call expressions 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export const useHook = () => {
     const foo = useSignal(bar.$baz)
@@ -71,7 +71,7 @@ export const useHook = () => {
 }"
 `;
 
-exports[`transform Should transform nested call expressions 2 1`] = `
+exports[`react Should transform nested call expressions 2 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export const useHook = () => {
     const foo = useSignal(bar.$baz.qux)
@@ -79,7 +79,7 @@ export const useHook = () => {
 }"
 `;
 
-exports[`transform Should wrap call expressions with arguments in arrow function 1`] = `
+exports[`react Should wrap call expressions with arguments in arrow function 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export const useHook = () => {
     const foo = useSignal(() => (bar.$baz({ a: 1 })))
@@ -87,7 +87,7 @@ export const useHook = () => {
 }"
 `;
 
-exports[`transform Should transform complex expressions 1`] = `
+exports[`react Should transform complex expressions 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export const useHook = () => {
     const a = useSignal(() => ($a() + $b()))
@@ -98,7 +98,7 @@ export const useHook = () => {
 }"
 `;
 
-exports[`transform Should transform JSX attributes 1`] = `
+exports[`react Should transform JSX attributes 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export const Component = () => {
     return (
@@ -107,7 +107,7 @@ export const Component = () => {
 }"
 `;
 
-exports[`transform Should transform JSX spread attributes 1`] = `
+exports[`react Should transform JSX spread attributes 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export const Component = () => {
     return (
@@ -116,7 +116,7 @@ export const Component = () => {
 }"
 `;
 
-exports[`transform Should transform JSX container expressions 1`] = `
+exports[`react Should transform JSX container expressions 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export const Component = () => {
     return (
@@ -127,14 +127,14 @@ export const Component = () => {
 }"
 `;
 
-exports[`transform Should ignore non-reads 1`] = `
+exports[`react Should ignore non-reads 1`] = `
 "export const Component = () => {
     const foo = $foo(100)
     return null
 }"
 `;
 
-exports[`transform Should ignore already decorated signals 1`] = `
+exports[`react Should ignore already decorated signals 1`] = `
 "import { useSignal as useS } from "@monstermann/signals-react"
 export const Component = () => {
     const foo = useS($foo)
@@ -142,7 +142,7 @@ export const Component = () => {
 }"
 `;
 
-exports[`transform Should reuse import 1`] = `
+exports[`react Should reuse import 1`] = `
 "import { useSignal as useS } from "@monstermann/signals-react"
 export const Component = () => {
     const foo = useS($foo)
@@ -150,7 +150,7 @@ export const Component = () => {
 }"
 `;
 
-exports[`transform Should wrap a hook argument, not the hook call, for a direct read 1`] = `
+exports[`react Should wrap a hook argument, not the hook call, for a direct read 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export function useHook() {
     const foo = useThing(useSignal($foo))
@@ -158,7 +158,7 @@ export function useHook() {
 }"
 `;
 
-exports[`transform Should wrap a hook argument, not the hook call, for a nested read 1`] = `
+exports[`react Should wrap a hook argument, not the hook call, for a nested read 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export function useHook() {
     const foo = useThing(useSignal(() => ({ value: $foo() })))
@@ -166,7 +166,7 @@ export function useHook() {
 }"
 `;
 
-exports[`transform Should still wrap the whole expression inside a non-hook call 1`] = `
+exports[`react Should still wrap the whole expression inside a non-hook call 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export function useHook() {
     const foo = useSignal(() => (util({ value: $foo() })))
@@ -174,21 +174,21 @@ export function useHook() {
 }"
 `;
 
-exports[`transform Should not wrap a bare member reference 1`] = `
+exports[`react Should not wrap a bare member reference 1`] = `
 "export function useHook() {
     const foo = useThing({ $isOpen: bar.$baz })
     return foo
 }"
 `;
 
-exports[`transform Should not wrap a deeper member access that is never called 1`] = `
+exports[`react Should not wrap a deeper member access that is never called 1`] = `
 "export function useHook() {
     const foo = bar.$baz.qux
     return foo
 }"
 `;
 
-exports[`transform Should wrap an invoked member-access chain 1`] = `
+exports[`react Should wrap an invoked member-access chain 1`] = `
 "import { useSignal } from "@monstermann/signals-react";
 export function useHook() {
     const foo = useSignal(a.$b.c.d)

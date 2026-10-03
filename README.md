@@ -6,13 +6,12 @@
 
 </div>
 
-| Package                                                                      | Description                                                                    |
-| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| [`@monstermann/signals`](./packages/signals)                                 | The library.                                                                   |
-| [`@monstermann/signals-transform`](./packages/signals-transform)             | Names the actions of @monstermann/signals and disposes its effects during HMR. |
-| [`@monstermann/signals-react`](./packages/signals-react)                     | React integration for @monstermann/signals.                                    |
-| [`@monstermann/signals-react-transform`](./packages/signals-react-transform) | Wraps reads of signals in React components with useSignal.                     |
-| [`@monstermann/signals-modal`](./packages/signals-modal)                     | Composable modal management.                                                   |
+| Package                                                          | Description                                                                |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [`@monstermann/signals`](./packages/signals)                     | The library.                                                               |
+| [`@monstermann/signals-transform`](./packages/signals-transform) | Names actions, disposes effects during HMR and writes useSignal for React. |
+| [`@monstermann/signals-react`](./packages/signals-react)         | React integration for @monstermann/signals.                                |
+| [`@monstermann/signals-modal`](./packages/signals-modal)         | Composable modal management.                                               |
 
 ## Development
 

@@ -9,18 +9,11 @@ interface Scope {
     react: boolean
 }
 
-export interface SignalsReactResult {
-    code: string
-    map: SourceMap
-}
-
-type SourceMap = import("magic-string").SourceMap
-
 /**
  * Wraps reads of signals in components and hooks with `useSignal`.
  * Signals are recognized by their `$` prefix: `$count()`, `state.$count()`.
  */
-export function transform(code: string, id: string): SignalsReactResult | undefined {
+export function transformReact(code: string, id: string): MagicString | undefined {
     // Nothing to do without a `$`, skip parsing.
     if (!code.includes("$")) return
 
@@ -180,18 +173,7 @@ export function transform(code: string, id: string): SignalsReactResult | undefi
         }
     }
 
-    if (!ms.hasChanged()) return
-
-    return {
-        code: ms.toString(),
-        get map() {
-            return ms.generateMap({
-                hires: "boundary",
-                includeContent: true,
-                source: filename,
-            })
-        },
-    }
+    return ms.hasChanged() ? ms : undefined
 }
 
 function isReactIdentifier(name: string): boolean {

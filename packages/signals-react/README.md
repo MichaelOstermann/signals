@@ -25,7 +25,7 @@ export function Counter({ offset }: { offset: number }) {
 
 `useSignal` takes a signal, memo, reducer or function, subscribes the component with `useSyncExternalStore` and returns the current value.
 
-[`@monstermann/signals-react-transform`](../signals-react-transform) writes the `useSignal` calls for you.
+[`@monstermann/signals-transform`](../signals-transform#react) writes the `useSignal` calls for you, with its `react` option.
 
 ## Installation
 
