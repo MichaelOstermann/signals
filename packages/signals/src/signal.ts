@@ -21,6 +21,54 @@ export interface SignalOptions<T> {
     onWatch?: () => Dispose | void
 }
 
+/**
+ * # signal
+ *
+ * ```ts
+ * function signal<T>(value: T, options?: SignalOptions<T>): Signal<T>;
+ * ```
+ *
+ * Signals are a primitive that describe values that change over time.
+ *
+ * ## Example
+ *
+ * ```ts
+ * import { signal } from "@monstermann/signals";
+ *
+ * // Create:
+ * const count = signal(0);
+ *
+ * // Update:
+ * count(1);
+ *
+ * // Transform:
+ * count((n) => n + 1);
+ *
+ * // Read:
+ * count(); // 2
+ * ```
+ *
+ * ## Options
+ *
+ * ```ts
+ * signal(value, {
+ *     // Whether this signal holds a mutable value (eg. Map, Set, Array, Object).
+ *     // If set to `true`, skips the basic === check and always updates dependents:
+ *     mutable: true,
+ *     // Provide a custom comparator (runs after the basic === check):
+ *     equals(before, after) {
+ *         return true;
+ *     },
+ *     // Do something before this signal is being read from:
+ *     onRead() {},
+ *     // Do something when this signal is being watched (memo/effect):
+ *     onWatch() {
+ *         // Do something when this signal is no longer being watched:
+ *         return () => {};
+ *     },
+ * });
+ * ```
+ */
 export function signal<T>(
     value: T,
     options?: SignalOptions<NoInfer<T>>,

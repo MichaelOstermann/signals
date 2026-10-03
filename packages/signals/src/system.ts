@@ -548,14 +548,86 @@ function disposeEffect(effect: RawEffect): void {
     effect.sources = undefined
 }
 
+/**
+ * # isBatching
+ *
+ * ```ts
+ * function isBatching(): boolean;
+ * ```
+ *
+ * Whether updates are currently being batched.
+ *
+ * ## Example
+ *
+ * ```ts
+ * import { batch, isBatching } from "@monstermann/signals";
+ *
+ * isBatching(); // false
+ *
+ * batch(() => {
+ *     isBatching(); // true
+ * });
+ * ```
+ */
 export function isBatching(): boolean {
     return batchDepth > 0
 }
 
+/**
+ * # startBatch
+ *
+ * ```ts
+ * function startBatch(): void;
+ * ```
+ *
+ * Similar to `batch`, but allows you to manually control when batching is done, see `endBatch`.
+ *
+ * ## Example
+ *
+ * ```ts
+ * import { signal, effect, startBatch, endBatch } from "@monstermann/signals";
+ *
+ * const a = signal(0);
+ * const b = signal(0);
+ *
+ * effect(() => console.log(a(), b()));
+ *
+ * startBatch();
+ * try {
+ *     a(1);
+ *     b(1);
+ * } finally {
+ *     // Prints: 1, 1
+ *     endBatch();
+ * }
+ * ```
+ */
 export function startBatch(): void {
     batchDepth++
 }
 
+/**
+ * # endBatch
+ *
+ * ```ts
+ * function endBatch(): void;
+ * ```
+ *
+ * Ends a batch that has been started with `startBatch`, the outermost one runs the pending effects.
+ *
+ * ## Example
+ *
+ * ```ts
+ * import { startBatch, endBatch } from "@monstermann/signals";
+ *
+ * startBatch();
+ * try {
+ *     // …
+ * } finally {
+ *     endBatch();
+ * }
+ * ```
+ */
 export function endBatch(): void {
     if (batchDepth > 1) {
         batchDepth--
@@ -599,6 +671,35 @@ export function endBatch(): void {
     }
 }
 
+/**
+ * # untrack
+ *
+ * ```ts
+ * function untrack<T>(fn: () => T): T;
+ * ```
+ *
+ * Skips creating subscriptions for the duration of the provided callback.
+ *
+ * ## Example
+ *
+ * ```ts
+ * import { signal, effect, untrack } from "@monstermann/signals";
+ *
+ * const a = signal(0);
+ * const b = signal(0);
+ *
+ * effect(() => {
+ *     console.log(a());
+ *     untrack(() => console.log(b()));
+ * });
+ *
+ * // Prints: 1, 0
+ * a(1);
+ *
+ * // No effect:
+ * b(1);
+ * ```
+ */
 export function untrack<T>(fn: () => T): T {
     if (sub.tail?.value === undefined) return fn()
     pauseTracking()
@@ -607,10 +708,66 @@ export function untrack<T>(fn: () => T): T {
     finally { resumeTracking() }
 }
 
+/**
+ * # pauseTracking
+ *
+ * ```ts
+ * function pauseTracking(): void;
+ * ```
+ *
+ * Similar to `untrack`, but allows you to manually control when tracking should be resumed, see `resumeTracking`.
+ *
+ * ## Example
+ *
+ * ```ts
+ * import { signal, effect, pauseTracking, resumeTracking } from "@monstermann/signals";
+ *
+ * const a = signal(0);
+ * const b = signal(0);
+ *
+ * effect(() => {
+ *     console.log(a());
+ *     pauseTracking();
+ *     try {
+ *         console.log(b());
+ *     } finally {
+ *         resumeTracking();
+ *     }
+ * });
+ *
+ * // Prints: 1, 0
+ * a(1);
+ *
+ * // No effect:
+ * b(1);
+ * ```
+ */
 export function pauseTracking(): void {
     Dll.append(sub, undefined)
 }
 
+/**
+ * # resumeTracking
+ *
+ * ```ts
+ * function resumeTracking(): void;
+ * ```
+ *
+ * Resumes tracking that has been paused with `pauseTracking`.
+ *
+ * ## Example
+ *
+ * ```ts
+ * import { pauseTracking, resumeTracking } from "@monstermann/signals";
+ *
+ * pauseTracking();
+ * try {
+ *     // …
+ * } finally {
+ *     resumeTracking();
+ * }
+ * ```
+ */
 export function resumeTracking(): void {
     if (sub.tail) Dll.unlink(sub, sub.tail)
 }

@@ -17,6 +17,54 @@ export interface Emitter<T = any> extends ReadonlyEmitter<T> {
     (message: T): void
 }
 
+/**
+ * # emitter
+ *
+ * ```ts
+ * function emitter<T = void>(): Emitter<T>;
+ * ```
+ *
+ * Emitters are simple `EventEmitter`s that ship a single event. Emitting events is untracked and batched.
+ *
+ * Listeners are kept in a `Set`: The same function counts once, and listeners added while emitting are called as well.
+ *
+ * ## Example
+ *
+ * ```ts
+ * import { emitter, onDispose, dispose } from "@monstermann/signals";
+ *
+ * const onMsg = emitter<string>();
+ *
+ * // Subscribe:
+ * const unsubscribe = onMsg((msg) => console.log(msg));
+ *
+ * // Emit (batched + untracked):
+ * onMsg("Hello world!");
+ *
+ * // Unsubscribe:
+ * unsubscribe();
+ *
+ * // Do something before disposal:
+ * onDispose(onMsg, () => {});
+ *
+ * // Dispose, removes all listeners:
+ * dispose(onMsg);
+ * ```
+ *
+ * ## Splitting Events
+ *
+ * While emitters only emit single events, you can quickly emulate an `EventEmitter`:
+ *
+ * ```ts
+ * const onStatus = emitter<"open" | "close">();
+ * const onOpen = (callback) => onStatus((msg) => msg === "open" && callback());
+ * const onClose = (callback) => onStatus((msg) => msg === "close" && callback());
+ *
+ * onStatus((status) => console.log(status));
+ * onOpen(() => console.log("opened"));
+ * onClose(() => console.log("closed"));
+ * ```
+ */
 export function emitter<T = void>(meta?: Meta): Emitter<T> {
     const listeners = new Set<EmitterCallback<T>>()
 
