@@ -12,7 +12,7 @@ export function useSignal<T>(value: UseSignalValue<T>): T {
     const signal = useMemo(() => {
         if ("kind" in value) return value
         const memo = new RawMemo(value)
-        return memo.get.bind(memo)
+        return () => memo.get()
     }, [value])
 
     const subscribe = useCallback((cb: () => void) => {
@@ -23,7 +23,7 @@ export function useSignal<T>(value: UseSignalValue<T>): T {
             isFirst = false
         })
         effect.run()
-        return effect.dispose.bind(effect)
+        return () => effect.dispose()
     }, [signal])
 
     const getSnapshot = useCallback(() => {
