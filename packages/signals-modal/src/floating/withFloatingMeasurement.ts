@@ -1,4 +1,4 @@
-import type { Memo, Reactive } from "@monstermann/signals"
+import type { Memo } from "@monstermann/signals"
 import type { ModalStatus } from "../status/types"
 import { Rect } from "@monstermann/fn"
 import { effect, memo, signal } from "@monstermann/signals"
@@ -10,8 +10,8 @@ import { observeDimensions } from "../internals/observeDimensions"
  *
  * ```ts
  * function withFloatingMeasurement(options: {
- *     $floatingElement: Reactive<HTMLElement | null>;
- *     $status: Reactive<ModalStatus>;
+ *     $floatingElement: () => HTMLElement | null;
+ *     $status: () => ModalStatus;
  *     transform?: (rect: Rect) => Rect;
  * }): Memo<Rect>;
  * ```
@@ -46,8 +46,8 @@ import { observeDimensions } from "../internals/observeDimensions"
  *
  */
 export function withFloatingMeasurement(options: {
-    $floatingElement: Reactive<HTMLElement | null>
-    $status: Reactive<ModalStatus>
+    $floatingElement: () => HTMLElement | null
+    $status: () => ModalStatus
     transform?: (rect: Rect) => Rect
 }): Memo<Rect> {
     const modal = currentModal()

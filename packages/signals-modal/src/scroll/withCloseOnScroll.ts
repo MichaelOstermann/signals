@@ -1,4 +1,3 @@
-import type { Reactive } from "@monstermann/signals"
 import type { ModalStatus } from "../status/types"
 import { effect } from "@monstermann/signals"
 import { currentModal } from "../createModal"
@@ -9,8 +8,8 @@ import { closeModal } from "../status/closeModal"
  *
  * ```ts
  * function withCloseOnScroll(options: {
- *     $anchorElement: Reactive<HTMLElement | null>;
- *     $status: Reactive<ModalStatus>;
+ *     $anchorElement: () => HTMLElement | null;
+ *     $status: () => ModalStatus;
  * }): void;
  * ```
  *
@@ -41,8 +40,8 @@ import { closeModal } from "../status/closeModal"
  *
  */
 export function withCloseOnScroll(options: {
-    $anchorElement: Reactive<HTMLElement | null>
-    $status: Reactive<ModalStatus>
+    $anchorElement: () => HTMLElement | null
+    $status: () => ModalStatus
 }): void {
     const modal = currentModal()
     const onScroll = () => closeModal(modal.key)

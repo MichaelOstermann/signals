@@ -4,7 +4,7 @@ import { $keysToStatus } from "./internals"
 /**
  * # getModalStatus
  *
- * <Badge type="tip">Reactive</Badge>
+ * Reactive: subscribes when read inside an effect, memo or component.
  *
  * ```ts
  * function getModalStatus(key: string): ModalStatus;

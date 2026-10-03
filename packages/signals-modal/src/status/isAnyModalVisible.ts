@@ -3,7 +3,7 @@ import { getVisibleModals } from "./getVisibleModals"
 /**
  * # isAnyModalVisible
  *
- * <Badge type="tip">Reactive</Badge>
+ * Reactive: subscribes when read inside an effect, memo or component.
  *
  * ```ts
  * function isAnyModalVisible(): boolean;

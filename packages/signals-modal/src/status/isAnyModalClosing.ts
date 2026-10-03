@@ -3,7 +3,7 @@ import { getClosingModals } from "./getClosingModals"
 /**
  * # isAnyModalClosing
  *
- * <Badge type="tip">Reactive</Badge>
+ * Reactive: subscribes when read inside an effect, memo or component.
  *
  * ```ts
  * function isAnyModalClosing(): boolean;

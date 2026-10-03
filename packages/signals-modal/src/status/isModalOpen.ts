@@ -4,7 +4,7 @@ import { isModalOpening } from "./isModalOpening"
 /**
  * # isModalOpen
  *
- * <Badge type="tip">Reactive</Badge>
+ * Reactive: subscribes when read inside an effect, memo or component.
  *
  * ```ts
  * function isModalOpen(key: string): boolean;

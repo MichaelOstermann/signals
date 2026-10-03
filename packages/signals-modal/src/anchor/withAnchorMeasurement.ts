@@ -1,4 +1,4 @@
-import type { Memo, Reactive } from "@monstermann/signals"
+import type { Memo } from "@monstermann/signals"
 import type { ModalStatus } from "../status/types"
 import { Rect } from "@monstermann/fn"
 import { effect, memo, signal } from "@monstermann/signals"
@@ -10,8 +10,8 @@ import { observePosition } from "../internals/observePosition"
  *
  * ```ts
  * function withAnchorMeasurement(options: {
- *     $anchorElement: Reactive<HTMLElement | null>;
- *     $status: Reactive<ModalStatus>;
+ *     $anchorElement: () => HTMLElement | null;
+ *     $status: () => ModalStatus;
  *     transform?: (rect: Rect) => Rect;
  * }): Memo<Rect>;
  * ```
@@ -48,8 +48,8 @@ import { observePosition } from "../internals/observePosition"
  *
  */
 export function withAnchorMeasurement(options: {
-    $anchorElement: Reactive<HTMLElement | null>
-    $status: Reactive<ModalStatus>
+    $anchorElement: () => HTMLElement | null
+    $status: () => ModalStatus
     transform?: (rect: Rect) => Rect
 }): Memo<Rect> {
     const modal = currentModal()

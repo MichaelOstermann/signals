@@ -1,4 +1,4 @@
-import type { Memo, Reactive } from "@monstermann/signals"
+import type { Memo } from "@monstermann/signals"
 import type { ModalStatus } from "../status/types"
 import { Rect } from "@monstermann/fn"
 import { effect, memo, signal } from "@monstermann/signals"
@@ -10,7 +10,7 @@ import { getMousePosition, trackMousePosition } from "../internals/mousePosition
  *
  * ```ts
  * function withMouseAnchor(options: {
- *     $status: Reactive<ModalStatus>;
+ *     $status: () => ModalStatus;
  *     transform?: (rect: Rect) => Rect;
  * }): Memo<Rect>;
  * ```
@@ -41,7 +41,7 @@ import { getMousePosition, trackMousePosition } from "../internals/mousePosition
  *
  */
 export function withMouseAnchor(options: {
-    $status: Reactive<ModalStatus>
+    $status: () => ModalStatus
     transform?: (rect: Rect) => Rect
 }): Memo<Rect> {
     const modal = currentModal()

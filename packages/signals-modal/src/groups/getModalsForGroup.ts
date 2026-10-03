@@ -5,7 +5,7 @@ const empty: ReadonlySet<string> = new Set()
 /**
  * # getModalsForGroup
  *
- * <Badge type="tip">Reactive</Badge>
+ * Reactive: subscribes when read inside an effect, memo or component.
  *
  * ```ts
  * function getModalsForGroup(group: string): ReadonlySet<string>;

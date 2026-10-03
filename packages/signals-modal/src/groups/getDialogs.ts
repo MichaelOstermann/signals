@@ -4,7 +4,7 @@ import { modalGroups } from "./modalGroups"
 /**
  * # getDialogs
  *
- * <Badge type="tip">Reactive</Badge>
+ * Reactive: subscribes when read inside an effect, memo or component.
  *
  * ```ts
  * function getDialogs(): ReadonlySet<string>;

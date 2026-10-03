@@ -3,7 +3,7 @@ import { isModalClosed } from "./isModalClosed"
 /**
  * # isModalVisible
  *
- * <Badge type="tip">Reactive</Badge>
+ * Reactive: subscribes when read inside an effect, memo or component.
  *
  * ```ts
  * function isModalVisible(key: string): boolean;

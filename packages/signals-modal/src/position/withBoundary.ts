@@ -1,4 +1,4 @@
-import type { Memo, Reactive } from "@monstermann/signals"
+import type { Memo } from "@monstermann/signals"
 import type { ModalStatus } from "../status/types"
 import { Rect } from "@monstermann/fn"
 import { effect, memo, signal } from "@monstermann/signals"
@@ -9,7 +9,7 @@ import { currentModal } from "../createModal"
  *
  * ```ts
  * function withBoundary(options: {
- *     $status: Reactive<ModalStatus>;
+ *     $status: () => ModalStatus;
  *     transform?: (rect: Rect) => Rect;
  * }): Memo<Rect>;
  * ```
@@ -35,7 +35,7 @@ import { currentModal } from "../createModal"
  *
  */
 export function withBoundary(options: {
-    $status: Reactive<ModalStatus>
+    $status: () => ModalStatus
     transform?: (rect: Rect) => Rect
 }): Memo<Rect> {
     const modal = currentModal()

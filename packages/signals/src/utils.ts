@@ -1,19 +1,7 @@
 import type { MaybeDispose } from "./disposer"
-import type { Memo } from "./memo"
-import type { ReadonlySignal, Signal } from "./signal"
 import { disposer } from "./disposer"
 import { cleanupCtx } from "./internals/contexts"
-import { read } from "./internals/read"
-import { pauseTracking, resumeTracking } from "./system"
-
-export type Reactive<T> =
-    | Memo<T>
-    | Signal<T>
-    | ReadonlySignal<T>
-
-export type MaybeReactive<T> =
-    | Reactive<T>
-    | T
+import { untrack } from "./system"
 
 /**
  * # onCleanup
@@ -45,27 +33,21 @@ export function onCleanup<T extends MaybeDispose>(onDispose: T): T {
  * # peek
  *
  * ```ts
- * function peek<T>(target: MaybeReactive<T>): T;
+ * function peek<T>(target: () => T): T;
  * ```
  *
- * Reads from a signal, memo, reducer, function or plain value without causing subscriptions.
+ * Reads from a signal, memo, reducer or function without causing subscriptions. Same as `untrack`.
  *
  * ## Example
  *
  * ```ts
- * import { peek, signal, memo } from "@monstermann/signals";
+ * import { effect, peek, signal } from "@monstermann/signals";
  *
- * const count = signal(0);
+ * const a = signal(0);
+ * const b = signal(0);
  *
- * peek(count); // 0
- * peek(memo(() => count() * 2)); // 0
- * peek(() => count() + 1); // 1
- * peek(1); // 1
+ * // Only reruns when `a` changes:
+ * effect(() => console.log(a(), peek(b)));
  * ```
  */
-export function peek<T>(target: MaybeReactive<T>): T {
-    pauseTracking()
-
-    try { return read(target) }
-    finally { resumeTracking() }
-}
+export const peek: <T>(target: () => T) => T = untrack

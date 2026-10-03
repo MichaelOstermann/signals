@@ -3,7 +3,7 @@ import { $keysToStatus } from "./internals"
 /**
  * # isModalClosing
  *
- * <Badge type="tip">Reactive</Badge>
+ * Reactive: subscribes when read inside an effect, memo or component.
  *
  * ```ts
  * function isModalClosing(key: string): boolean;
