@@ -1,6 +1,4 @@
-import type { DllLink } from "@monstermann/fn"
 import type { Dispose } from "./disposer"
-import { Dll } from "@monstermann/fn"
 
 type ReactiveNode = {
     nextSource: ReactiveNode | undefined
@@ -35,11 +33,23 @@ let batchedEffect: RawEffect | undefined
 let batchIteration = 0
 let version = 0
 let batchSnapshots: BatchSnapshot | undefined
-const sub: Dll<RawEffect | RawMemo | undefined> = Dll.create()
+
+// What is currently collecting dependencies, and what did so before it.
+let evalContext: RawEffect | RawMemo | undefined
+let evalDepth = 0
+const evalStack: (RawEffect | RawMemo | undefined)[] = []
+
+function pushContext(context: RawEffect | RawMemo | undefined): void {
+    evalStack[evalDepth++] = evalContext
+    evalContext = context
+}
+
+function popContext(): void {
+    evalContext = evalStack[--evalDepth]
+    evalStack[evalDepth] = undefined
+}
 
 function addDependency(signal: RawSignal): ReactiveNode | undefined {
-    const evalContext = sub.tail?.value
-
     if (evalContext === undefined) {
         return undefined
     }
@@ -369,10 +379,9 @@ RawMemo.prototype.refresh = function () {
         return true
     }
 
-    let l: DllLink<RawMemo | RawEffect | undefined> | undefined
+    prepareSources(this)
+    pushContext(this)
     try {
-        prepareSources(this)
-        l = Dll.append(sub, this)
         const value = this.fn()
         if (
             this.flags & HAS_ERROR
@@ -390,7 +399,7 @@ RawMemo.prototype.refresh = function () {
         this.version++
     }
     finally {
-        if (l) Dll.unlink(sub, l)
+        popContext()
     }
     cleanupSources(this)
     this.flags &= ~RUNNING
@@ -503,15 +512,15 @@ RawEffect.prototype.start = function (this: RawEffect): void {
     prepareSources(this)
 
     startBatch()
-    Dll.append(sub, this)
+    pushContext(this)
 }
 
 RawEffect.prototype.end = function (this: RawEffect) {
-    if (sub.tail?.value !== this) {
+    if (evalContext !== this) {
         throw new Error("Out-of-order effect")
     }
     cleanupSources(this)
-    Dll.unlink(sub, sub.tail!)
+    popContext()
 
     this.flags &= ~RUNNING
     if (this.flags & DISPOSED) disposeEffect(this)
@@ -701,7 +710,7 @@ export function endBatch(): void {
  * ```
  */
 export function untrack<T>(fn: () => T): T {
-    if (sub.tail?.value === undefined) return fn()
+    if (evalContext === undefined) return fn()
     pauseTracking()
 
     try { return fn() }
@@ -743,7 +752,7 @@ export function untrack<T>(fn: () => T): T {
  * ```
  */
 export function pauseTracking(): void {
-    Dll.append(sub, undefined)
+    pushContext(undefined)
 }
 
 /**
@@ -769,5 +778,5 @@ export function pauseTracking(): void {
  * ```
  */
 export function resumeTracking(): void {
-    if (sub.tail) Dll.unlink(sub, sub.tail)
+    if (evalDepth > 0) popContext()
 }
