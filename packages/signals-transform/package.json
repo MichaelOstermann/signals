@@ -34,7 +34,7 @@
         "@jridgewell/remapping": "^2.3.5",
         "@monstermann/meta": "^0.6.0",
         "magic-string": "^1.4.2",
-        "oxc-parser": "^0.152.0",
+        "oxc-parser": "^0.153.0",
         "oxc-walker": "^1.1.1"
     }
 }
