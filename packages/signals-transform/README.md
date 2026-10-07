@@ -102,6 +102,7 @@ export function Component({ className }) {
 ```
 
 - Signals are recognized by their name, which has to start with a `$`: `$count()`, `state.$count()`.
+- A call with arguments counts as a read too, which is what functions that read signals look like: `$t("key")` becomes `useSignal(() => $t("key"))`. Writes belong in callbacks and effects, where nothing is wrapped.
 - Requires the [React Compiler](https://react.dev/learn/react-compiler). Expressions such as `$class() + className` become `useSignal(() => …)`, and without the compiler memoizing that function, it is a new one on every render and gets subscribed to again each time.
 - Only functions that look like components or hooks are transformed: a name starting with an uppercase letter or `use`, or a body containing JSX.
 - A read becomes a hook call in the place where it is written, so the rules of hooks apply: no reads inside conditions, loops, callbacks or after an early return.

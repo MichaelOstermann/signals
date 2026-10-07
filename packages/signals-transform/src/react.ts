@@ -110,13 +110,12 @@ export function transformReact(code: string, id: string): MagicString | undefine
                 skip++
             }
 
-            // $foo(), foo.$bar(), foo.$bar.baz()
+            // $foo(), $foo(arg), foo.$bar(), foo.$bar.baz()
             else if (
                 !skip
                 && (
-                    // $foo()
+                    // $foo(), $foo(arg)
                     (node.type === "CallExpression"
-                        && node.arguments.length === 0
                         && node.callee.type === "Identifier"
                         && node.callee.name.startsWith("$"))
                     // foo.$bar(), foo.$bar.baz()

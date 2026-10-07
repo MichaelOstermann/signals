@@ -152,11 +152,24 @@ describe("react", () => {
         `)
     })
 
-    test("Should ignore non-reads", () => {
+    test("Should wrap identifier calls with arguments in arrow function", () => {
         expectSnapshot(`
             export const Component = () => {
                 const foo = $foo(100)
-                return null
+                return <div>{$t("key", { a: 1 })}</div>
+            }
+        `)
+    })
+
+    test("Should ignore writes in statements and callbacks", () => {
+        expectSnapshot(`
+            export const Component = () => {
+                $foo(100)
+                const onClick = () => $foo(200)
+                useEffect(() => {
+                    $foo(300)
+                })
+                return <div onClick={() => $foo(400)} onKeyDown={onClick} />
             }
         `)
     })

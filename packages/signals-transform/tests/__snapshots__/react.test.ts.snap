@@ -127,13 +127,6 @@ export const Component = () => {
 }"
 `;
 
-exports[`react Should ignore non-reads 1`] = `
-"export const Component = () => {
-    const foo = $foo(100)
-    return null
-}"
-`;
-
 exports[`react Should ignore already decorated signals 1`] = `
 "import { useSignal as useS } from "@monstermann/signals-react"
 export const Component = () => {
@@ -193,5 +186,24 @@ exports[`react Should wrap an invoked member-access chain 1`] = `
 export function useHook() {
     const foo = useSignal(a.$b.c.d)
     return foo
+}"
+`;
+
+exports[`react Should wrap identifier calls with arguments in arrow function 1`] = `
+"import { useSignal } from "@monstermann/signals-react";
+export const Component = () => {
+    const foo = useSignal(() => ($foo(100)))
+    return <div>{useSignal(() => ($t("key", { a: 1 })))}</div>
+}"
+`;
+
+exports[`react Should ignore writes in statements and callbacks 1`] = `
+"export const Component = () => {
+    $foo(100)
+    const onClick = () => $foo(200)
+    useEffect(() => {
+        $foo(300)
+    })
+    return <div onClick={() => $foo(400)} onKeyDown={onClick} />
 }"
 `;
