@@ -34,7 +34,7 @@
         "@monstermann/signals": "workspace:^"
     },
     "dependencies": {
-        "@monstermann/fn": "^0.12.0"
+        "@monstermann/fn": "^0.13.0"
     },
     "devDependencies": {
         "@monstermann/fn-transform": "^0.12.0",
